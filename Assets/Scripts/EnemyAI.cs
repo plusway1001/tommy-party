@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    
+
     [Header("Chase")]
     public float moveSpeed = 3f;
+
+    [Header("Attack")]
+    public int damage = 1;
+    public float damageCooldown = 1f;
+
+    private float nextDamageTime;
 
     private Transform player;
     private Rigidbody2D rb;
@@ -24,18 +30,35 @@ public class EnemyAI : MonoBehaviour
         if (player == null)
             return;
 
-        // Direction to player
         Vector2 direction =
             (player.position - transform.position).normalized;
 
-        // Move toward player
         rb.MovePosition(
             rb.position + direction * moveSpeed * Time.fixedDeltaTime
         );
 
-        // Rotate toward player
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle =
+            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         rb.rotation = angle;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Player"))
+            return;
+
+        if (Time.time >= nextDamageTime)
+        {
+            nextDamageTime = Time.time + damageCooldown;
+
+            PlayerHealth playerHealth =
+                collision.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+        }
     }
 }
