@@ -2,34 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    /*[Header("Movement")]
-    public float moveSpeed = 5f;
+    [Header("Recoil")]
+    public float recoilDistance = 0.15f;
 
-    private Rigidbody2D rb;
-    private Vector2 movement;
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Update()
-    {
-        // Get Input
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-
-        // Normalize movement
-        movement = movement.normalized;
-    }
-
-    private void FixedUpdate()
-    {
-        // Move player with collision
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-    }*/
-
-    
     [Header("Movement")]
     public float moveSpeed = 5f;
 
@@ -89,6 +64,13 @@ public class PlayerMovement : MonoBehaviour
             bulletPrefab,
             firePoint.position,
             firePoint.rotation
+        );
+
+        // Recoil pushback
+        Vector2 recoilDirection = -firePoint.right;
+
+        rb.MovePosition(
+            rb.position + recoilDirection * recoilDistance
         );
     }
 }

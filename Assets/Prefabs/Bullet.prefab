@@ -170,5 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33027effb5953684dbb56a35871f5a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  shakecamDuration: 0.03
+  shakecamMagnitude: 0.12
   speed: 15
   lifeTime: 3
