@@ -17,11 +17,16 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private Camera cam;
 
+    
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
     }
+
+    
 
     private void Update()
     {
@@ -39,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Shoot();
         }
+
+        
     }
 
     private void FixedUpdate()
@@ -73,4 +80,6 @@ public class PlayerMovement : MonoBehaviour
             rb.position + recoilDirection * recoilDistance
         );
     }
+
+    
 }
