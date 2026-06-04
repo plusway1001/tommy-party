@@ -1,8 +1,15 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyHealth : MonoBehaviour
 {
-    
+    [Header("Hit Flash")]
+    public Color flashColor = Color.red;
+    public float flashDuration = 0.1f;
+
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+
     [Header("Health")]
     public int maxHealth = 3;
 
@@ -15,6 +22,9 @@ public class EnemyHealth : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
     }
 
     private void Start()
@@ -26,6 +36,9 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= damage;
 
+        // Flash effect
+        StartCoroutine(HitFlash());
+
         rb.AddForce(hitDirection * knockbackForce,
             ForceMode2D.Impulse);
 
@@ -33,6 +46,18 @@ public class EnemyHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    IEnumerator HitFlash()
+    {
+        // Change color
+        spriteRenderer.color = flashColor;
+
+        // Wait
+        yield return new WaitForSeconds(flashDuration);
+
+        // Back to normal
+        spriteRenderer.color = originalColor;
     }
 
     void Die()
