@@ -1558,6 +1558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c631c63d539bf504689cf1b0ac255c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
   maxHealth: 3
   knockbackForce: 5
 --- !u!50 &962387226
@@ -1926,6 +1928,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c631c63d539bf504689cf1b0ac255c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
   maxHealth: 3
   knockbackForce: 5
 --- !u!50 &1305198760
