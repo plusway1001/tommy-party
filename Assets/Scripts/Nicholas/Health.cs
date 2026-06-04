@@ -34,6 +34,7 @@ public class Health : MonoBehaviour
     {
         // Flash effect
         CameraShake.Instance.Shake(0.1f, 0.15f);
+        ParticleEffectManager.Instance.PlayHitEffect(transform.position);
         StartCoroutine(HitFlash());
         if (GetComponent<PlayerHealth>() != null)
         {
@@ -92,6 +93,7 @@ public class Health : MonoBehaviour
     private void Die()
     {
         OnDeath?.Invoke();
+        ParticleEffectManager.Instance.PlayExplosionEffect(transform.position);
         Destroy(gameObject);
     }
 }
