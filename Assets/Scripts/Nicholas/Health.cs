@@ -11,6 +11,19 @@ public class Health : MonoBehaviour
 
     public Action OnDeath;
 
+    [Header("Hit Flash")]
+    public Color flashColor = Color.red;
+    public float flashDuration = 0.1f;
+
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
+    }
+
     public void Initialize(int health)
     {
         maxHealth = health;
@@ -19,6 +32,8 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        // Flash effect
+        StartCoroutine(HitFlash());
         if (GetComponent<PlayerHealth>() != null)
         {
             if (!invincible)
@@ -59,6 +74,18 @@ public class Health : MonoBehaviour
         {
             sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
         }
+    }
+
+    IEnumerator HitFlash()
+    {
+        // Change color
+        spriteRenderer.color = flashColor;
+
+        // Wait
+        yield return new WaitForSeconds(flashDuration);
+
+        // Back to normal
+        spriteRenderer.color = originalColor;
     }
 
     private void Die()
