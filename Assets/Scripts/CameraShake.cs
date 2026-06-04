@@ -21,15 +21,15 @@ public class CameraShake : MonoBehaviour
     {
         if (shakeDuration > 0)
         {
-            cameraFollow.shakeOffset =
-                (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            //cameraFollow.shakeOffset =
+            //    (Vector3)Random.insideUnitCircle * shakeMagnitude;
 
             shakeDuration -= Time.deltaTime;
         }
         else
         {
             shakeDuration = 0f;
-            cameraFollow.shakeOffset = Vector3.zero;
+            //cameraFollow.shakeOffset = Vector3.zero;
         }
     }
 
