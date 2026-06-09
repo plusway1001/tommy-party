@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Flash effect
-        CameraShake.Instance.Shake(0.1f, 0.15f);
+        //CameraShake.Instance.Shake(0.1f, 0.15f);
         ParticleEffectManager.Instance.PlayHitEffect(transform.position);
         StartCoroutine(HitFlash());
         if (GetComponent<PlayerHealth>() != null)

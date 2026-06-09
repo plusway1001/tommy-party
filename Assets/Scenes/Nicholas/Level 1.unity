@@ -1516,6 +1516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFire
   firePoint: {fileID: 1791954656}
+  starterBulletPrefab: {fileID: 3429659728600299800, guid: 5d61ee7d215f7bf4190e280da6a40b8b, type: 3}
 --- !u!114 &1074493493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2763,6 +2764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f110f5b6709111448f0d98f0a4f0d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMelee
+  firePoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
   lootPrefab: {fileID: 6725766786028113829, guid: b487215cb8b79284d9f5ab86653f745e, type: 3}
 --- !u!114 &1805238545
 MonoBehaviour:

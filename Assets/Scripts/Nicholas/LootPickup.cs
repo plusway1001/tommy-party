@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class LootPickup : MonoBehaviour
 {
-    public Loot loot;
 
     private void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = loot.icon;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -15,7 +14,7 @@ public class LootPickup : MonoBehaviour
         {
             return;
         }
-        GameManager.instance.AddCurrency(loot.value);
+        //GameManager.instance.AddCurrency(loot.value);
         Destroy(gameObject);
     }
 }

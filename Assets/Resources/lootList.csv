@@ -1,0 +1,3 @@
+lootID,lootName,value,dropChance,icon
+0,Coin,1,0.8,coin_sprite
+1,Bomb,100,0.2,bomb_sprite

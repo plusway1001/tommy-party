@@ -1,15 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Loot : Item
+[System.Serializable]
+public class LootItem
 {
+    public string name;
+    public int value;
     public float dropChance;
-    public Sprite icon;
+    public string icon;
+}
 
-    public Loot(string name, int value, float dropChance, Sprite icon)
-    {
-        this.name = name;
-        this.value = value;
-        this.dropChance = dropChance;
-        this.icon = icon;
-    }
+public class LootTable
+{
+    public List<LootItem> items = new List<LootItem>();
 }

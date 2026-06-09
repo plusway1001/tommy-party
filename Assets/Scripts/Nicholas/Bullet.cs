@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private int damage;
+    [HideInInspector] public int damage;
     [SerializeField] private float speed;
     [SerializeField] private float lifetime;
 
@@ -35,8 +35,11 @@ public class Bullet : MonoBehaviour
 
         if (health != null)
         {
-            health.TakeDamage(damage);
-            Destroy(gameObject);
+            if (!collision.gameObject.CompareTag("Player"))
+            {
+                health.TakeDamage(damage);
+                Destroy(gameObject);
+            }
         }
     }
 }

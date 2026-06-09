@@ -15,34 +15,34 @@ public class GameplayManager : MonoBehaviour
     void Update()
     {
         // Press P key
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            isPaused = !isPaused;
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    isPaused = !isPaused;
+        //}
 
-        if (isPaused)
-        {
-            PauseGame();
-        }
-        else
-        {
-            ResumeGame();
-        }
+        //if (isPaused)
+        //{
+        //    PauseGame();
+        //}
+        //else
+        //{
+        //    ResumeGame();
+        //}
     }
 
-    void PauseGame()
-    {
-        Time.timeScale = 0f;
-        pausepanel.SetActive(true);
-        Debug.Log("Game Paused");
-    }
+    //void PauseGame()
+    //{
+    //    Time.timeScale = 0f;
+    //    pausepanel.SetActive(true);
+    //    //Debug.Log("Game Paused");
+    //}
 
-    void ResumeGame()
-    {
-        Time.timeScale = 1f;
-        pausepanel.SetActive(false);
-        Debug.Log("Game Resumed");
-    }
+    //void ResumeGame()
+    //{
+    //    Time.timeScale = 1f;
+    //    pausepanel.SetActive(false);
+    //    //Debug.Log("Game Resumed");
+    //}
 
     public void PauseGame(bool isPause)
     {

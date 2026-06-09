@@ -6,9 +6,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int fps;
 
-    [SerializeField] private GameObject starterBulletPrefab;
-    [SerializeField] private Sprite coinIcon;
-
     public int Currency { get; private set; }
 
     private void Awake()
@@ -22,9 +19,6 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
-        WeaponsList.Init(starterBulletPrefab);
-        LootList.Init(coinIcon);
 
         Application.targetFrameRate = fps;
         //Cursor.visible = false;

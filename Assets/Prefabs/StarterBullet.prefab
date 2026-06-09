@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3336131001929451693}
   - component: {fileID: 1687013955194578449}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: StarterBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,10 +167,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3429659728600299800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33027effb5953684dbb56a35871f5a5e, type: 3}
+  m_Script: {fileID: 11500000, guid: fd2b9e19dd92c69478fa25009e058568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
-  shakecamDuration: 0.03
-  shakecamMagnitude: 0.12
-  speed: 15
-  lifeTime: 3
+  damage: 0
+  speed: 20
+  lifetime: 2
