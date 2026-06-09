@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,11 +30,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Keyboard.current.pKey.wasPressedThisFrame)
         {
-            isPaused = !isPaused;
-
-            if (isPaused)
+            if (!isPaused)
             {
                 PauseGame();
             }
@@ -44,21 +43,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void PauseGame()
+    public void PauseGame()
     {
         Time.timeScale = 0f;
         pausepanel.SetActive(true);
+        isPaused = true;
     }
 
-    void ResumeGame()
+    public void ResumeGame()
     {
         Time.timeScale = 1f;
         pausepanel.SetActive(false);
-    }
-
-    public void PauseGame(bool isPause)
-    {
-        isPaused = isPause;
+        isPaused = false;
     }
 
     public void AddCurrency(int amount)

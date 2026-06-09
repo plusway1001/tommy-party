@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private GameObject lootPrefab;
 
     private Transform player;
 
