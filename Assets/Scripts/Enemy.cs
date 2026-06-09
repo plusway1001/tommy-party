@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMelee : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    private string enemyID = "1";
+    [SerializeField] private string enemyID = "0";
 
     private int baseHealth;
     private float baseSpeed;
@@ -10,6 +11,7 @@ public class EnemyMelee : MonoBehaviour
     private float turnSpeed;
     private float detectionRange;
     private float stoppingRange;
+
     private string lootTableID;
 
     private Health health;
@@ -28,11 +30,14 @@ public class EnemyMelee : MonoBehaviour
 
     private Vector2 moveDirection;
 
+    private LootTable lootTable;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        LoadExcelData();
+        lootTable = new LootTable();
+        LoadCSV();
     }
 
     private void Start()
@@ -110,40 +115,57 @@ public class EnemyMelee : MonoBehaviour
         if (firePoint != null)
         {
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            bulletPrefab.GetComponent<Bullet>().originTag = gameObject.tag;
         }
     }
 
     private void DropLoot()
     {
-        //foreach (Loot loot in enemy.lootTable)
-        //{
-        //    if (Random.value <= loot.dropChance)
-        //    {
-        //        GameObject drop = Instantiate(lootPrefab, transform.position, Quaternion.identity);
-        //        drop.GetComponent<LootPickup>().loot = loot;
-        //    }
-        //}
+        Debug.Log("drop!");
+        if (lootTable == null || lootTable.items.Count == 0) return;
+
+        float totalWeight = 0f;
+
+        foreach (LootItem loot in lootTable.items)
+        {
+            totalWeight += loot.dropChance;
+        }
+
+        float roll = Random.Range(0f, totalWeight);
+
+        foreach (LootItem loot in lootTable.items)
+        {
+            roll -= loot.dropChance;
+
+            if (roll <= 0)
+            {
+                GameObject drop = Instantiate(Resources.Load<GameObject>($"Prefabs/Loot/{loot.prefabName}"), transform.position, Quaternion.identity);
+                drop.GetComponent<LootPickup>().value = loot.value;
+                break;
+            }
+        }
     }
 
-    void LoadExcelData()
+    void LoadCSV()
     {
         //Loading CSV file from the Resources folder
         TextAsset enemyCSV = Resources.Load<TextAsset>("EnemyList");
+        TextAsset lootCSV = Resources.Load<TextAsset>("LootList");
 
         if (enemyCSV == null)
         {
             return;
         }
 
-        string[] rows = enemyCSV.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
+        string[] enemyRows = enemyCSV.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
 
-        for (int i = 1; i < rows.Length; i++)
+        for (int i = 1; i < enemyRows.Length; i++)
         {
             //Skip empty rows
-            if (string.IsNullOrWhiteSpace(rows[i])) continue;
+            if (string.IsNullOrWhiteSpace(enemyRows[i])) continue;
 
             //Split columns by comma delimiter
-            string[] columns = rows[i].Split(',');
+            string[] columns = enemyRows[i].Split(',');
 
             if (columns[0] != enemyID) continue;
 
@@ -156,6 +178,32 @@ public class EnemyMelee : MonoBehaviour
             stoppingRange = float.Parse(columns[7]);
 
             lootTableID = columns[8];
+        }
+
+        if (lootCSV == null)
+        {
+            return;
+        }
+
+        string[] lootRows = lootCSV.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
+
+        for (int i = 1; i < lootRows.Length; i++)
+        {
+            //Skip empty rows
+            if (string.IsNullOrWhiteSpace(lootRows[i])) continue;
+
+            //Split columns by comma delimiter
+            string[] columns = lootRows[i].Split(',');
+
+            LootItem item = new LootItem
+            {
+                name = columns[1],
+                value = int.Parse(columns[2]),
+                dropChance = float.Parse(columns[3]),
+                prefabName = columns[4]
+            };
+
+            lootTable.items.Add(item);
         }
     }
 }

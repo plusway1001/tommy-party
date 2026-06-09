@@ -9,23 +9,19 @@ public class PlayerFire : MonoBehaviour
 
     private float nextFireTime;
 
-    private int value;
-    private int damage;
-    private float fireRate;
-    private string prefabName;
+    private WeaponList weaponList;
+    private Weapon currentWeapon;
+    [SerializeField] private int currentWeaponID;
 
-    [SerializeField] private GameObject starterBulletPrefab;
-
-    private Dictionary<string, GameObject> prefabDictionary;
+    private void Awake()
+    {
+        weaponList = new WeaponList();
+    }
 
     private void Start()
     {
-        prefabDictionary = new Dictionary<string, GameObject>()
-        {
-            { "bullet_starter", starterBulletPrefab }
-        };
-
         LoadExcelData();
+        currentWeapon = weaponList.weapons[currentWeaponID];
     }
 
     private void Update()
@@ -43,13 +39,12 @@ public class PlayerFire : MonoBehaviour
             return;
         }
 
-        nextFireTime = Time.time + (1f / fireRate);
+        nextFireTime = Time.time + (1f / currentWeapon.fireRate);
 
-        if (prefabDictionary.TryGetValue(prefabName, out GameObject selectedPrefab))
-        {
-            GameObject bullet = Instantiate(selectedPrefab, firePoint.position, firePoint.rotation);
-            bullet.GetComponent<Bullet>().damage = damage;
-        }   
+        GameObject bullet = Instantiate(Resources.Load<GameObject>($"Prefabs/Bullets/{currentWeapon.prefabName}"), firePoint.position, firePoint.rotation);
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.damage = currentWeapon.damage;
+        bulletScript.originTag = gameObject.tag;
     }
 
     void LoadExcelData()
@@ -72,12 +67,15 @@ public class PlayerFire : MonoBehaviour
             //Split columns by comma delimiter
             string[] columns = rows[i].Split(',');
 
-            if (columns[0] != "0") continue;
+            Weapon weapon = new Weapon
+            {
+                value = int.Parse(columns[2]),
+                damage = int.Parse(columns[3]),
+                fireRate = float.Parse(columns[4]),
+                prefabName = columns[5]
+            };
 
-            value = int.Parse(columns[2]);
-            damage = int.Parse(columns[3]);
-            fireRate = float.Parse(columns[4]);
-            prefabName = columns[5];
+            weaponList.weapons.Add(weapon);
         }
     }
 }

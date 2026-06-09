@@ -2,11 +2,7 @@ using UnityEngine;
 
 public class LootPickup : MonoBehaviour
 {
-
-    private void Start()
-    {
-
-    }
+    [HideInInspector] public int value;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,7 +10,7 @@ public class LootPickup : MonoBehaviour
         {
             return;
         }
-        //GameManager.instance.AddCurrency(loot.value);
+        GameManager.instance.AddCurrency(value);
         Destroy(gameObject);
     }
 }

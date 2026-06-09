@@ -7,7 +7,7 @@ public class LootItem
     public string name;
     public int value;
     public float dropChance;
-    public string icon;
+    public string prefabName;
 }
 
 public class LootTable

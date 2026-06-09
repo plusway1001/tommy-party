@@ -6,11 +6,10 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float lifetime;
 
-    private float spawnTime;
+    [HideInInspector] public string originTag;
 
     private void Start()
     {
-        spawnTime = Time.time;
         Destroy(gameObject, lifetime);
     }
 
@@ -28,18 +27,15 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (Time.time - spawnTime < 0.05f)
+        else if (collision.gameObject.CompareTag(originTag))
         {
             return;
         }
 
-        if (health != null)
+        else if (health != null)
         {
-            if (!collision.gameObject.CompareTag("Player"))
-            {
-                health.TakeDamage(damage);
-                Destroy(gameObject);
-            }
+            health.TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 }
