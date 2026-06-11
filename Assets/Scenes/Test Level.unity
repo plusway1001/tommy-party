@@ -270,10 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f2227bbbf9054baf7aa61abdc9dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 847561273}
-  smoothTime: 0.2
-  offset: {x: 0, y: 0, z: -10}
-  shakeOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,11 +655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360c795f7f5e45459e9ba4177fc21a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  recoilDistance: 1
-  moveSpeed: 5
-  bulletPrefab: {fileID: 3429659728600299800, guid: 5d61ee7d215f7bf4190e280da6a40b8b, type: 3}
-  firePoint: {fileID: 839826122}
-  facingAngle: 0
 --- !u!61 &847561270
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -827,7 +818,7 @@ GameObject:
   - component: {fileID: 962387225}
   - component: {fileID: 962387224}
   m_Layer: 0
-  m_Name: Enemy (1)
+  m_Name: EnemyRanged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -846,6 +837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   moveSpeed: 3
+  damage: 1
+  damageCooldown: 1
 --- !u!114 &962387225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +851,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c631c63d539bf504689cf1b0ac255c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
   maxHealth: 3
   knockbackForce: 5
 --- !u!50 &962387226
@@ -921,17 +916,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.011610061, y: -0.0038699806}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.46, y: 0.47}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.3420899, y: 0.35757035}
   m_EdgeRadius: 0
 --- !u!212 &962387228
 SpriteRenderer:
@@ -982,10 +977,10 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.2358489, b: 0.2358489, a: 1}
+  m_Sprite: {fileID: -7079677590845867759, guid: da4946c78e5c248e8ba54a0803a44c8a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
@@ -1002,7 +997,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.23, y: 2.12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1022,7 +1017,7 @@ GameObject:
   - component: {fileID: 1305198759}
   - component: {fileID: 1305198758}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyMelee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1041,6 +1036,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   moveSpeed: 3
+  damage: 1
+  damageCooldown: 1
 --- !u!114 &1305198759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,6 +1050,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c631c63d539bf504689cf1b0ac255c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
   maxHealth: 3
   knockbackForce: 5
 --- !u!50 &1305198760
@@ -1116,17 +1115,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.015480116, y: -0.019350246}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.45, y: 0.46}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.33434984, y: 0.31112954}
   m_EdgeRadius: 0
 --- !u!212 &1305198762
 SpriteRenderer:
@@ -1177,8 +1176,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.2358489, b: 0.2358489, a: 1}
+  m_Sprite: {fileID: -3967422953864020463, guid: e1c9e5b6408b644dd81be602f53d3eb8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1197,7 +1196,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.82, y: 4.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
