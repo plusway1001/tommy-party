@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public enum pickup_type
 {
@@ -14,7 +15,7 @@ public class InventoryManager : MonoBehaviour
     public int[] storeinventoryID;
     public string[] storeinventoryName;
     public Sprite[] storeinventoryImage;
-    
+    public static bool EnabledPickup = true;
 
     public int[] inventoryID;
     public TextMeshProUGUI[] inventoryName_ID;
@@ -47,6 +48,8 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
+        EnabledPickup = true;
+
         ClearInventoryData();
         ClearAllUseItemStatus();
         ClearAllSwapItemStatus();
@@ -109,6 +112,17 @@ public class InventoryManager : MonoBehaviour
         SpawnItemUsedJanitor();
 
         CheckInventorySlotClampValues();
+    }
+
+    IEnumerator PickupDelay(float duration)
+    {
+        Debug.Log("Start");
+        EnabledPickup = false;
+
+        yield return new WaitForSeconds(duration);
+
+        EnabledPickup = true;
+        Debug.Log(duration + "seconds later");
     }
 
     public void CheckInventorySlotClampValues()
@@ -194,13 +208,31 @@ public class InventoryManager : MonoBehaviour
 
     public void SwapInventoryData()
     {
+        int temp_ID;
+        //Image temp_Image;
+        //string temp_text;
+
         if (item == null) return;
+
+        temp_ID = inventoryID[status];
+
         inventoryID[status] = item.itemID;
-        
         inventoryName_ID[status].text = item.itemName;
         inventoryImage[status].sprite = item.itemImage;
         //item.gameObject.SetActive(false);
         Destroy(item.gameObject);
+
+        StartCoroutine(PickupDelay(1f));
+
+        for (int i = 0; i < dropItemID.Length; i++)
+        {
+            if (temp_ID == dropItemID[i])
+            {
+                Instantiate(dropItemSpawnObject[i], Janitor.position, Janitor.rotation);
+
+            }
+        }
+
         ClearAllSwapItemStatus();
     }
 

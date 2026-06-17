@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5446764412134711859}
   - component: {fileID: 56531142884662871}
   - component: {fileID: 733809621273425218}
+  - component: {fileID: 7151222021708353131}
   m_Layer: 0
   m_Name: Weapon 2
   m_TagString: Item
@@ -138,3 +139,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7151222021708353131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662386390462191897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c585929b6be26946b4b70446e20bd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemID: 2
+  itemName: Weapon 2
+  itemImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemDescription: It's something interesting here! :)
