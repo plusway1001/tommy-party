@@ -1,0 +1,11 @@
+itemID,itemName,itemImage,itemDescription
+1,Health Potion,HealthPotion,Restores 50 HP when consumed
+2,Mana Potion,ManaPotion,Restores 30 MP when consumed
+3,Iron Sword,IronSword,A basic sword for beginner adventurers
+4,Wooden Shield,WoodenShield,Provides a small amount of protection
+5,Gold Coin,GoldCoin,Common currency used for trading
+6,Bow,Bow,A simple ranged weapon
+7,Arrow,Arrow,Ammunition used for bows
+8,Magic Scroll,MagicScroll,Contains a mysterious magical spell
+9,Dungeon Key,DungeonKey,Opens a locked dungeon door
+10,Apple,Apple,Restores a small amount of hunger
