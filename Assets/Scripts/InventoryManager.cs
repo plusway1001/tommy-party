@@ -142,18 +142,19 @@ public class InventoryManager : MonoBehaviour
     {
         float scroll = Mouse.current.scroll.ReadValue().y;
 
-        if (scroll > 0)
+        if (scroll > 0 && MouseScrollNum < 2)
         {
             MouseScrollNum++;
             Debug.Log("Increase: " + MouseScrollNum);
         }
-        else if (scroll < 0)
+        else if (scroll < 0 && MouseScrollNum > 0)
         {
             MouseScrollNum--;
             Debug.Log("Decrease: " + MouseScrollNum);
         }
 
         ShowSelectedSlot(MouseScrollNum);
+        
         Debug.Log(MouseScrollNum);
 
         if (Keyboard.current.qKey.wasPressedThisFrame)
@@ -270,6 +271,8 @@ public class InventoryManager : MonoBehaviour
 
         if (item == null) return;
 
+        if (inventoryID[status] == 0) return;
+
         temp_ID = inventoryID[status];
 
         inventoryID[status] = item.itemID;
@@ -336,6 +339,8 @@ public class InventoryManager : MonoBehaviour
 
     void OnDropButtonClickedV3(int index)
     {
+        if (inventoryID[index] == 0) return;
+
         if (inventoryloopCount > 0)
         {
             for (int i = 0; i < dropItemID.Length; i++)
@@ -437,6 +442,8 @@ public class InventoryManager : MonoBehaviour
 
     public void UseItemJanitorButtonClickedV2(int index)
     {
+        if (inventoryID[index] == 0) return;
+
         if (inventoryloopCount > 0)
         {
             for (int i = 0; i < itemforJanitor.Length; i++)
