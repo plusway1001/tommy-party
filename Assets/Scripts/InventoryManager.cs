@@ -1,13 +1,14 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using System.Collections;
 
 public enum pickup_type
 {
-    mouse_pickup,
-    player_pickup
+    keyboard_pickup,
+    UIbutton_pickup
 }
 
 public class InventoryManager : MonoBehaviour
@@ -46,9 +47,16 @@ public class InventoryManager : MonoBehaviour
 
     public pickup_type pickupType;
 
+    int MouseScrollNum = 0;
+
+    public GameObject[] Selected_Slot;
+
+    private bool isEnabledSwap = false;
+
     void Start()
     {
         EnabledPickup = true;
+        isEnabledSwap = false;
 
         ClearInventoryData();
         ClearAllUseItemStatus();
@@ -112,6 +120,11 @@ public class InventoryManager : MonoBehaviour
         SpawnItemUsedJanitor();
 
         CheckInventorySlotClampValues();
+
+        if (pickupType == pickup_type.keyboard_pickup)
+        {
+            InputKeyBlindInvent();
+        }
     }
 
     IEnumerator PickupDelay(float duration)
@@ -125,24 +138,70 @@ public class InventoryManager : MonoBehaviour
         Debug.Log(duration + "seconds later");
     }
 
+    public void InputKeyBlindInvent()
+    {
+        float scroll = Mouse.current.scroll.ReadValue().y;
+
+        if (scroll > 0)
+        {
+            MouseScrollNum++;
+            Debug.Log("Increase: " + MouseScrollNum);
+        }
+        else if (scroll < 0)
+        {
+            MouseScrollNum--;
+            Debug.Log("Decrease: " + MouseScrollNum);
+        }
+
+        ShowSelectedSlot(MouseScrollNum);
+        Debug.Log(MouseScrollNum);
+
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            OnDropButtonClickedV3(MouseScrollNum);
+        }
+
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            UseItemJanitorButtonClickedV2(MouseScrollNum);
+        }
+
+        if (Keyboard.current.zKey.wasPressedThisFrame)
+        {
+            isEnabledSwap = !isEnabledSwap;
+
+            Debug.Log("Toggle: " + isEnabledSwap);
+        }
+
+        if (isEnabledSwap)
+        {
+            SetSwappableItemStatus(MouseScrollNum);
+        }
+        else
+        {
+            ClearAllSwapItemStatus();
+        }
+    }
+
+    public void ShowSelectedSlot(int state)
+    {
+        for(int i = 0; i < Selected_Slot.Length; i++)
+        {
+            Selected_Slot[i].SetActive(false);
+        }
+
+        Selected_Slot[state].SetActive(true);
+    }
+
     public void CheckInventorySlotClampValues()
     {
-        //int invt = inventoryMaxSpace - 1;
         inventoryloopCount = Mathf.Clamp(inventoryloopCount, 0, inventoryMaxSpace);
-        /*if(inventoryloopCount < 0)
-        {
-            inventoryloopCount = 0;
-        }
-        if (inventoryloopCount > invt)
-        {
-            inventoryloopCount = invt;
-        }*/
+        
+        MouseScrollNum = Mathf.Clamp(MouseScrollNum, 0, inventoryMaxSpace - 1);
     }
 
     public void PlayerInventoryHit(GameObject hit)
     {
-        if (pickupType == pickup_type.player_pickup)
-        {
             item = hit.GetComponent<ItemData>();
 
             int inv = inventoryMaxSpace - 1;
@@ -159,7 +218,6 @@ public class InventoryManager : MonoBehaviour
                     break;
                 }
             }
-        }
     }
     public void GetInventoryData()
     {
@@ -209,8 +267,6 @@ public class InventoryManager : MonoBehaviour
     public void SwapInventoryData()
     {
         int temp_ID;
-        //Image temp_Image;
-        //string temp_text;
 
         if (item == null) return;
 
@@ -364,6 +420,31 @@ public class InventoryManager : MonoBehaviour
                 {
                     isitemforJanitor[i] = true;
                     Debug.Log(isitemforJanitor[i]);
+                }
+            }
+            inventoryID[index] = 0;
+            //inventoryName_ID[index].text = "ID: " + storeinventoryID[index] + " " + storeinventoryName[index];
+            inventoryName_ID[index].text = storeinventoryName[index];
+            inventoryImage[index].sprite = storeinventoryImage[index];
+
+
+
+            inventoryloopCount--;
+
+
+        }
+    }
+
+    public void UseItemJanitorButtonClickedV2(int index)
+    {
+        if (inventoryloopCount > 0)
+        {
+            for (int i = 0; i < itemforJanitor.Length; i++)
+            {
+                if (inventoryID[index] == itemforJanitor[i])
+                {
+                    Instantiate(itemUsedSpawnJanitor[i], Janitor.position, Janitor.rotation);
+                    Debug.Log(itemUsedSpawnJanitor[i]);
                 }
             }
             inventoryID[index] = 0;
