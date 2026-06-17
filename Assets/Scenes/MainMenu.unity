@@ -595,6 +595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 668568315}
   - component: {fileID: 668568314}
+  - component: {fileID: 668568316}
   m_Layer: 0
   m_Name: ButtonManager
   m_TagString: Untagged
@@ -629,6 +630,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &668568316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668568313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad81a04f013bb741996b2d5910e52e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimeContinue
 --- !u!1 &693932638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,11 +1134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360c795f7f5e45459e9ba4177fc21a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  recoilDistance: 0.15
-  moveSpeed: 5
-  bulletPrefab: {fileID: 3429659728600299800, guid: 5d61ee7d215f7bf4190e280da6a40b8b, type: 3}
-  firePoint: {fileID: 839826122}
-  facingAngle: 0
 --- !u!61 &847561270
 BoxCollider2D:
   m_ObjectHideFlags: 0

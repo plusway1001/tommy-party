@@ -2,6 +2,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+public enum flash_type
+{
+    flash_color,
+    flash_material
+}
+
 public class Health : MonoBehaviour
 {
     [HideInInspector] public int maxHealth;
@@ -18,6 +24,13 @@ public class Health : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
+    [SerializeField] private Material normalMaterial;
+    [SerializeField] private Material flashMaterial;
+    public flash_type flashtype;
+
+    public float camerashake_duration = 0.1f, camerashake_magnitude = 0.15f;
+    public bool hasCameraShake = false;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,9 +46,20 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Flash effect
-        //CameraShake.Instance.Shake(0.1f, 0.15f);
+        if (hasCameraShake)
+        {
+            //CameraShake.Instance.Shake(0.1f, 0.15f);
+            CameraShake.Instance.Shake(camerashake_duration, camerashake_magnitude);
+        }
         ParticleEffectManager.Instance.PlayHitEffect(transform.position);
-        StartCoroutine(HitFlash());
+        if (flashtype == flash_type.flash_color)
+        {
+            StartCoroutine(HitFlash());
+        }
+        else
+        {
+            StartCoroutine(FlashRoutine());
+        }
         if (GetComponent<PlayerHealth>() != null)
         {
             if (!invincible)
@@ -48,7 +72,7 @@ public class Health : MonoBehaviour
                 }
                 foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
                 {
-                    sprite.color = new Color (sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);  
+                    sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);
                 }
                 StartCoroutine(Invincibility(GetComponent<PlayerHealth>().iFrameDuration));
             }
@@ -88,6 +112,15 @@ public class Health : MonoBehaviour
 
         // Back to normal
         spriteRenderer.color = originalColor;
+    }
+
+    private IEnumerator FlashRoutine()
+    {
+        spriteRenderer.material = flashMaterial;
+
+        yield return new WaitForSeconds(flashDuration);
+
+        spriteRenderer.material = normalMaterial;
     }
 
     private void Die()

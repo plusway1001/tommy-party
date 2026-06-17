@@ -55,10 +55,13 @@ public class InventoryManager : MonoBehaviour
 
     private bool isEnabledSwap = false;
 
+    public GameObject SwapActionText;
+
     void Start()
     {
         EnabledPickup = true;
         isEnabledSwap = false;
+        SwapActionText.SetActive(false);
 
         ClearInventoryData();
         ClearAllUseItemStatus();
@@ -305,6 +308,8 @@ public class InventoryManager : MonoBehaviour
         //item.gameObject.SetActive(false);
         Destroy(item.gameObject);
 
+        isEnabledSwap = false;
+
         StartCoroutine(PickupDelay(1f));
 
         for (int i = 0; i < dropItemID.Length; i++)
@@ -512,6 +517,10 @@ public class InventoryManager : MonoBehaviour
         ClearAllSwapItemStatus();
         isswapInventoryItems[index] = true;
 
+        if(pickupType == pickup_type.keyboard_pickup)
+        {
+            SwapActionText.SetActive(true);
+        }
     }
 
     public void CheckSwappableItemStatus()
@@ -536,9 +545,12 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < isswapInventoryItems.Length; i++)
         {
-
             isswapInventoryItems[i] = false;
+        }
 
+        if (pickupType == pickup_type.keyboard_pickup)
+        {
+            SwapActionText.SetActive(false);
         }
     }
 }
