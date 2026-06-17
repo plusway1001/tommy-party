@@ -51,6 +51,8 @@ public class InventoryManager : MonoBehaviour
 
     public GameObject[] Selected_Slot;
 
+    public GameObject[] UIbuttons;
+
     private bool isEnabledSwap = false;
 
     void Start()
@@ -62,19 +64,24 @@ public class InventoryManager : MonoBehaviour
         ClearAllUseItemStatus();
         ClearAllSwapItemStatus();
 
-        dropinventoryItems.onClick.AddListener(() => OnDropButtonClicked());
-
-        for (int i = 0; i < dropItem.Length; i++)
+        if (pickupType == pickup_type.UIbutton_pickup)
         {
-            int index = i;
-            dropItem[i].onClick.AddListener(() => OnDropButtonClickedV3(index));
-            
-            useitemJanitor[i].onClick.AddListener(() => UseItemJanitorButtonClicked(index));
-            
-            swapInventoryItems[i].onClick.AddListener(() => SetSwappableItemStatus(index));
+            HideAllSelectedSlot();
+
+            dropinventoryItems.onClick.AddListener(() => OnDropButtonClicked());
+
+            for (int i = 0; i < dropItem.Length; i++)
+            {
+                int index = i;
+                dropItem[i].onClick.AddListener(() => OnDropButtonClickedV3(index));
+
+                useitemJanitor[i].onClick.AddListener(() => UseItemJanitorButtonClicked(index));
+
+                swapInventoryItems[i].onClick.AddListener(() => SetSwappableItemStatus(index));
+            }
+
+            clearswapItemStatus.onClick.AddListener(() => ClearAllSwapItemStatus());
         }
-        
-        clearswapItemStatus.onClick.AddListener(() => ClearAllSwapItemStatus());
     }
 
     // Update is called once per frame
@@ -123,6 +130,7 @@ public class InventoryManager : MonoBehaviour
 
         if (pickupType == pickup_type.keyboard_pickup)
         {
+            HideAllUIButtons();
             InputKeyBlindInvent();
         }
     }
@@ -192,6 +200,22 @@ public class InventoryManager : MonoBehaviour
         }
 
         Selected_Slot[state].SetActive(true);
+    }
+
+    public void HideAllSelectedSlot()
+    {
+        for (int i = 0; i < Selected_Slot.Length; i++)
+        {
+            Selected_Slot[i].SetActive(false);
+        }
+    }
+
+    public void HideAllUIButtons()
+    {
+        for (int i = 0; i < UIbuttons.Length; i++)
+        {
+            UIbuttons[i].SetActive(false);
+        }
     }
 
     public void CheckInventorySlotClampValues()
