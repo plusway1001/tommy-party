@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,13 +6,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerFire : MonoBehaviour
 {
+    public event Action<string, Sprite> OnWeaponChanged;
+
     [SerializeField] private Transform firePoint;
 
     private float nextFireTime;
 
     private WeaponList weaponList;
     private Weapon currentWeapon;
-    [SerializeField] private int currentWeaponID;
+    [SerializeField] private int weaponID;
 
     private void Awake()
     {
@@ -21,7 +24,8 @@ public class PlayerFire : MonoBehaviour
     private void Start()
     {
         LoadExcelData();
-        currentWeapon = weaponList.weapons[currentWeaponID];
+        currentWeapon = weaponList.weapons[weaponID];
+        OnWeaponChanged?.Invoke(currentWeapon.name, currentWeapon.sprite);
     }
 
     private void Update()
@@ -29,6 +33,21 @@ public class PlayerFire : MonoBehaviour
         if (Mouse.current.leftButton.isPressed)
         {
             Fire();
+        }
+
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            if(weaponID == weaponList.weapons.Count - 1)
+            {
+                weaponID = 0;
+            }
+            else
+            {
+                weaponID += 1;
+            }
+
+            currentWeapon = weaponList.weapons[weaponID];
+            OnWeaponChanged?.Invoke(currentWeapon.name, currentWeapon.sprite);
         }
     }
 
@@ -49,7 +68,6 @@ public class PlayerFire : MonoBehaviour
 
     void LoadExcelData()
     {
-        //Loading CSV file from the Resources folder
         TextAsset weaponCSV = Resources.Load<TextAsset>("WeaponList");
 
         if (weaponCSV == null)
@@ -61,18 +79,18 @@ public class PlayerFire : MonoBehaviour
 
         for (int i = 1; i < rows.Length; i++)
         {
-            //Skip empty rows
             if (string.IsNullOrWhiteSpace(rows[i])) continue;
 
-            //Split columns by comma delimiter
             string[] columns = rows[i].Split(',');
 
             Weapon weapon = new Weapon
             {
+                name = columns[1],
                 value = int.Parse(columns[2]),
                 damage = int.Parse(columns[3]),
                 fireRate = float.Parse(columns[4]),
-                prefabName = columns[5]
+                prefabName = columns[5],
+                sprite = Resources.Load<Sprite>($"Sprites/Weapons/{columns[6]}")
             };
 
             weaponList.weapons.Add(weapon);

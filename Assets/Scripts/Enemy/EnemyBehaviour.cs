@@ -1,9 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyBehaviour : MonoBehaviour
 {
-    [SerializeField] private string enemyID = "0";
+    [SerializeField]
+    [Tooltip("0 = Shooter, 1 = Melee")]
+    public int enemyID = 0;
 
     private int baseHealth;
     private float baseSpeed;
@@ -12,11 +13,11 @@ public class Enemy : MonoBehaviour
     private float detectionRange;
     private float stoppingRange;
 
-    private string lootTableID;
+    private int lootTableID;
 
     private Health health;
-
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPrefab;
@@ -26,7 +27,6 @@ public class Enemy : MonoBehaviour
     private bool detected = false;
 
     private float nextFireTime;
-
     private Vector2 moveDirection;
 
     private LootTable lootTable;
@@ -34,9 +34,9 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
 
         lootTable = new LootTable();
-        LoadCSV();
     }
 
     private void Start()
@@ -85,6 +85,30 @@ public class Enemy : MonoBehaviour
         rb.MovePosition(rb.position + moveDirection * Time.fixedDeltaTime);
     }
 
+    public void InitializeEnemy()
+    {
+        EnemyData data = EnemyDatabase.Instance.GetEnemy(enemyID);
+
+        if (data == null)
+        {
+            return;
+        }
+
+        baseHealth = data.baseHealth;
+        baseSpeed = data.baseSpeed;
+        fireRate = data.fireRate;
+        turnSpeed = data.turnSpeed;
+
+        detectionRange = data.detectionRange;
+        stoppingRange = data.stoppingRange;
+
+        lootTableID = data.lootTableID;
+
+        sr.sprite = data.sprite;
+
+        lootTable = LootTableDatabase.Instance.GetTable(lootTableID);
+    }
+
     private void FacePlayer(Vector2 direction)
     {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -120,89 +144,37 @@ public class Enemy : MonoBehaviour
 
     private void DropLoot()
     {
-        Debug.Log("drop!");
-        if (lootTable == null || lootTable.items.Count == 0) return;
+        if (lootTable.entries.Count == 0)
+            return;
 
         float totalWeight = 0f;
 
-        foreach (LootItem loot in lootTable.items)
+        foreach (var entry in lootTable.entries)
         {
-            totalWeight += loot.dropChance;
+            totalWeight += entry.dropChance;
         }
 
         float roll = Random.Range(0f, totalWeight);
 
-        foreach (LootItem loot in lootTable.items)
+        foreach (var entry in lootTable.entries)
         {
-            roll -= loot.dropChance;
+            roll -= entry.dropChance;
 
-            if (roll <= 0)
+            if (roll > 0)
             {
-                GameObject drop = Instantiate(Resources.Load<GameObject>($"Prefabs/Loot/{loot.prefabName}"), transform.position, Quaternion.identity);
-                drop.GetComponent<LootPickup>().value = loot.value;
-                break;
+                continue;
             }
-        }
-    }
 
-    void LoadCSV()
-    {
-        //Loading CSV file from the Resources folder
-        TextAsset enemyCSV = Resources.Load<TextAsset>("EnemyList");
-        TextAsset lootCSV = Resources.Load<TextAsset>("LootList");
+            LootData loot = LootDatabase.Instance.lootDatabase[entry.lootID];
 
-        if (enemyCSV == null)
-        {
-            return;
-        }
+            GameObject prefab = Resources.Load<GameObject>($"Prefabs/Loot/{loot.prefab}");
+            GameObject drop = Instantiate(prefab, transform.position, Quaternion.identity);
 
-        string[] enemyRows = enemyCSV.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
+            LootPickup pickup = drop.GetComponent<LootPickup>();
 
-        for (int i = 1; i < enemyRows.Length; i++)
-        {
-            //Skip empty rows
-            if (string.IsNullOrWhiteSpace(enemyRows[i])) continue;
+            pickup.lootID = loot.lootID;
 
-            //Split columns by comma delimiter
-            string[] columns = enemyRows[i].Split(',');
-
-            if (columns[0] != enemyID) continue;
-
-            baseHealth = int.Parse(columns[2]);
-            baseSpeed = float.Parse(columns[3]);
-
-            fireRate = float.Parse(columns[4]);
-            turnSpeed = float.Parse(columns[5]);
-            detectionRange = float.Parse(columns[6]);
-            stoppingRange = float.Parse(columns[7]);
-
-            lootTableID = columns[8];
-        }
-
-        if (lootCSV == null)
-        {
-            return;
-        }
-
-        string[] lootRows = lootCSV.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
-
-        for (int i = 1; i < lootRows.Length; i++)
-        {
-            //Skip empty rows
-            if (string.IsNullOrWhiteSpace(lootRows[i])) continue;
-
-            //Split columns by comma delimiter
-            string[] columns = lootRows[i].Split(',');
-
-            LootItem item = new LootItem
-            {
-                name = columns[1],
-                value = int.Parse(columns[2]),
-                dropChance = float.Parse(columns[3]),
-                prefabName = columns[4]
-            };
-
-            lootTable.items.Add(item);
+            break;
         }
     }
 }

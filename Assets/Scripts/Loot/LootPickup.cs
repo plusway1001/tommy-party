@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class LootPickup : MonoBehaviour
 {
-    [HideInInspector] public int value;
+    public int lootID;
+    public int amount = 1;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player"))
+        Inventory inventory = collision.GetComponent<Inventory>();
+
+        if (inventory == null)
         {
             return;
         }
-        GameManager.instance.AddCurrency(value);
+
+        inventory.AddItem(lootID, amount);
+
         Destroy(gameObject);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Weapon
@@ -9,6 +10,8 @@ public class Weapon
     public int damage;
     public float fireRate;
     public string prefabName;
+
+    public Sprite sprite;
 }
 
 public class WeaponList

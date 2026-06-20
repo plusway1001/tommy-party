@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5767109521765301230}
   - component: {fileID: 1253066315745874434}
   - component: {fileID: 4686514130629627009}
-  - component: {fileID: 622235502493058736}
+  - component: {fileID: -8858960731111548192}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -129,7 +129,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &622235502493058736
+--- !u!114 &-8858960731111548192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,8 +138,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6725766786028113829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7821bd2b5ba37764ca7bda5288faeb88, type: 3}
+  m_Script: {fileID: 11500000, guid: 11d9413245f18fd4fbbcac64bf481803, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LootPickup
-  lootID: 0
-  amount: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Bomb
+  fuseTime: 2
+  explosionRadius: 3
+  damage: 100
+  explosionPrefab: {fileID: 1704566801543076395, guid: b3eeb4d68e959e54384b186d5d0dabd7, type: 3}

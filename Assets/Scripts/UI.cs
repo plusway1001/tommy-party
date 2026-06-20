@@ -4,8 +4,13 @@ using UnityEngine;
 public class UI : MonoBehaviour
 {
     [SerializeField] private Health playerHealth;
+    [SerializeField] private Inventory inventory;
+
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI moneyText;
+
+    [SerializeField] private TextMeshProUGUI slot1Text;
+    [SerializeField] private TextMeshProUGUI slot2Text;
 
     private void Update()
     {

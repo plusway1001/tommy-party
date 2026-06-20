@@ -1,3 +1,4 @@
-lootID,lootName,value,dropChance,prefab
-0,Coin,1,0.8,Coin
-1,Bomb,1,0.2,Bomb
+lootID,lootName,buyPrice,sellPrice,prefab
+0,Coin,0,0,Coin
+1,Bomb,10,5,Bomb
+2,Test,20,10,Test

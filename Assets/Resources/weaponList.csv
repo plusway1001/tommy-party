@@ -1,3 +1,3 @@
-﻿weaponID,weaponName,value,damage,fireRate,bullet
-0,weapon_starter,0,10,5,StarterBullet
-1,weapon_shotgun,100,50,2,ShotgunBullet
+﻿weaponID,weaponName,value,damage,fireRate,bullet,sprite
+0,weapon_starter,0,10,5,StarterBullet,StarterWeaponSprite
+1,weapon_shotgun,100,50,2,ShotgunBullet,ShotgunSprite
