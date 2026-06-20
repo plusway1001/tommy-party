@@ -11,8 +11,13 @@ public class InventoryPickup : MonoBehaviour
 
     public Bullet damaged;
 
+    public SpawnManager SpawnEnemy;
+
     public float AddPlayerMove = 1f, IncreasePlayerFireRate = 0.1f;
     public int IncreaseAttackDamaged = 1;
+
+    public Transform[] SpawnPos;
+    public GameObject[] EnemyType;
 
     private void OnTriggerStay2D(Collider2D others)
     {
@@ -39,6 +44,12 @@ public class InventoryPickup : MonoBehaviour
         {
             damaged.damagedPowerUp += IncreaseAttackDamaged;
             ParticleEffectManager.Instance.PlayExplosionEffect(transform.position);
+            Destroy(others.gameObject);
+        }
+
+        if (others.CompareTag("SpawnEnemyType1"))
+        {
+            SpawnEnemy.SpawnEnemyType(SpawnPos, EnemyType);
             Destroy(others.gameObject);
         }
     }
