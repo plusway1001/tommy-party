@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
 
     [HideInInspector] public string originTag;
 
+    public int damagedPowerUp = 0;
+
     private void Start()
     {
         Destroy(gameObject, lifetime);
@@ -34,6 +36,10 @@ public class Bullet : MonoBehaviour
 
         else if (health != null)
         {
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                damage += damagedPowerUp;
+            }
             health.TakeDamage(damage);
             Destroy(gameObject);
         }

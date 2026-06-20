@@ -9,6 +9,8 @@ public class PlayerFire : MonoBehaviour
 
     private float nextFireTime;
 
+    public float fireRatePowerUp = 0f;
+
     private WeaponList weaponList;
     private Weapon currentWeapon;
     [SerializeField] private int currentWeaponID;
@@ -39,7 +41,7 @@ public class PlayerFire : MonoBehaviour
             return;
         }
 
-        nextFireTime = Time.time + (1f / currentWeapon.fireRate);
+        nextFireTime = Time.time + (1f / currentWeapon.fireRate) - fireRatePowerUp;
 
         GameObject bullet = Instantiate(Resources.Load<GameObject>($"Prefabs/Bullets/{currentWeapon.prefabName}"), firePoint.position, firePoint.rotation);
         Bullet bulletScript = bullet.GetComponent<Bullet>();

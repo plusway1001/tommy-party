@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementInput;
     private Camera cam;
 
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float acceleration;
+    public float movementSpeed;
+    [SerializeField] public float acceleration;
 
     private void Awake()
     {
