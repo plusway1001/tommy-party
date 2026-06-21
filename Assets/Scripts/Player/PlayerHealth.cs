@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private Health health;
-    [SerializeField] private int maxHealth;
+    public Health health;
+    [SerializeField] public int maxHealth;
     [SerializeField] public float iFrameDuration;
 
     private void Awake()

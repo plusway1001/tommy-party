@@ -44,7 +44,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
 
         health = GetComponent<Health>();
         health.Initialize(baseHealth);
@@ -97,7 +100,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         Health player = collision.gameObject.GetComponent<Health>();
 
-        if (!player.invincible)
+        if (!player.invincible && player.gameObject.activeSelf)
         {
             player.TakeDamage(contactDamage);
             collision.gameObject.GetComponent<PlayerMovement>().Knockback(transform, knockbackForce);

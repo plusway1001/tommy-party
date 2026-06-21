@@ -11,10 +11,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float acceleration;
 
+    public Vector3 initialPos;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+    }
+
+    private void Start()
+    {
+        initialPos = transform.position;
     }
 
     private void FixedUpdate()

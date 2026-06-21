@@ -116,14 +116,18 @@ public class EnemySpawner : MonoBehaviour
         aliveEnemies++;
     }
 
-
     private Vector3 GetSpawnPosition()
     {
         Vector2 dir = Random.insideUnitCircle.normalized;
 
         float dist = Random.Range(minSpawnDistance, maxSpawnDistance);
 
-        return player.position + (Vector3)(dir * dist);
+        if (player != null)
+        {
+            return player.position + (Vector3)(dir * dist);
+        }
+
+        return Vector3.zero;
     }
 
     private void LoadWave(int waveID)
@@ -178,5 +182,38 @@ public class EnemySpawner : MonoBehaviour
             promptText.text =
                 $"Wave {currentWave} Complete\n\nPress SPACE to start Wave {currentWave + 1}";
         }
+    }
+
+    public void ResetWaves()
+    {
+        EnemyBehaviour[] enemies = FindObjectsByType<EnemyBehaviour>(FindObjectsSortMode.None);
+
+        foreach (EnemyBehaviour enemy in enemies)
+        {
+            Destroy(enemy.gameObject);
+        }
+
+        LootPickup[] lootItems = FindObjectsByType<LootPickup>(FindObjectsSortMode.None);
+
+        foreach (LootPickup loot in lootItems)
+        {
+            Destroy(loot.gameObject);
+        }
+
+        aliveEnemies = 0;
+        currentWave = 1;
+        waitingForNextWave = false;
+
+        spawnQueue.Clear();
+        currentSpawn = null;
+        remainingCount = 0;
+        timer = 0f;
+
+        if (nextWavePrompt != null)
+        {
+            nextWavePrompt.SetActive(false);
+        }
+
+        LoadWave(currentWave);
     }
 }

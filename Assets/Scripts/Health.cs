@@ -18,6 +18,9 @@ public class Health : MonoBehaviour
     private SpriteRenderer sr;
     private Color originalColor;
 
+    [SerializeField] GameObject gameOverPrompt;
+    public bool dead = false;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -28,6 +31,8 @@ public class Health : MonoBehaviour
     {
         maxHealth = health;
         currentHealth = health;
+
+        sr.color = originalColor;
     }
 
     public void TakeDamage(int damage)
@@ -107,8 +112,20 @@ public class Health : MonoBehaviour
         if (gameObject.CompareTag("Enemy"))
         {
             EnemySpawner.Instance.OnEnemyKilled();
+            Destroy(gameObject);
         }
+        
+        else if (gameObject.CompareTag("Player"))
+        {
+            gameOverPrompt.SetActive(true);
+            dead = true;
 
-        Destroy(gameObject);
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+
+            invincible = false;
+            SetAlpha(1.0f);
+
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class GameManager : MonoBehaviour
     public static bool isPaused = false;
 
     public GameObject pausepanel;
+
+    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerHealth health;
+    [SerializeField] private Health playerHealth;
+
+    [SerializeField] private GameObject gameOverPrompt;
 
     public int Currency { get; private set; }
 
@@ -25,7 +32,7 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = fps;
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -39,6 +46,21 @@ public class GameManager : MonoBehaviour
             else
             {
                 ResumeGame();
+            }
+        }
+
+        if (playerHealth.dead)
+        {
+            if (Keyboard.current.rKey.wasPressedThisFrame)
+            {
+                player.transform.position = player.GetComponent<PlayerMovement>().initialPos;
+                playerHealth.dead = false;
+                playerHealth.Initialize(health.maxHealth);
+                player.SetActive(true);
+
+                gameOverPrompt.SetActive(false);
+
+                EnemySpawner.Instance.ResetWaves();
             }
         }
     }
@@ -60,5 +82,10 @@ public class GameManager : MonoBehaviour
     public void AddCurrency(int amount)
     {
         Currency += amount;
+    }
+
+    public void SetCurrency(int amount)
+    {
+        Currency = amount;
     }
 }
