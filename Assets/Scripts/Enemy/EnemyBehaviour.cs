@@ -13,6 +13,9 @@ public class EnemyBehaviour : MonoBehaviour
     private float detectionRange;
     private float stoppingRange;
 
+    private int contactDamage;
+    private float knockbackForce;
+
     private int lootTableID;
 
     private Health health;
@@ -85,6 +88,22 @@ public class EnemyBehaviour : MonoBehaviour
         rb.MovePosition(rb.position + moveDirection * Time.fixedDeltaTime);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Player"))
+        {
+            return;
+        }
+
+        Health player = collision.gameObject.GetComponent<Health>();
+
+        if (!player.invincible)
+        {
+            player.TakeDamage(contactDamage);
+            collision.gameObject.GetComponent<PlayerMovement>().Knockback(transform, knockbackForce);
+        }
+    }
+
     public void InitializeEnemy()
     {
         EnemyData data = EnemyDatabase.Instance.GetEnemy(enemyID);
@@ -101,6 +120,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         detectionRange = data.detectionRange;
         stoppingRange = data.stoppingRange;
+
+        contactDamage = data.contactDamage;
+        knockbackForce = data.knockbackForce;
 
         lootTableID = data.lootTableID;
 
@@ -128,7 +150,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void TryShoot()
     {
-        if (Time.time < nextFireTime)
+        if (Time.time < nextFireTime || enemyID == 1)
         {
             return;
         }

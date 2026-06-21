@@ -48,9 +48,11 @@ public class EnemyDatabase : MonoBehaviour
                 detectionRange = float.Parse(columns[6]),
                 stoppingRange = float.Parse(columns[7]),
 
-                lootTableID = int.Parse(columns[8]),
-                spawnWeight = int.Parse(columns[9]),
-                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[10]}")
+                contactDamage = int.Parse(columns[8]),
+                knockbackForce = float.Parse(columns[9]),
+
+                lootTableID = int.Parse(columns[10]),
+                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[11]}")
             };
 
             enemyDatabase.Add(enemy.enemyID, enemy);

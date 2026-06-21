@@ -43,8 +43,6 @@ public class ShopTrigger : MonoBehaviour
         GameManager.instance.AddCurrency(-shopItem.price);
 
         Inventory.instance.AddItem(shopItem.lootID, shopItem.amount);
-
-        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

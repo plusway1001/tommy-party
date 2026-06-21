@@ -1,34 +1,109 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    public static EnemySpawner Instance;
 
-    [SerializeField] private float spawnInterval = 2f;
+    [SerializeField] private GameObject enemyPrefab;
 
     [SerializeField] private Transform player;
     [SerializeField] private float minSpawnDistance = 12f;
     [SerializeField] private float maxSpawnDistance = 18f;
 
+    private Queue<WaveSpawnData> spawnQueue = new();
+
+    private WaveSpawnData currentSpawn;
+    private int remainingCount;
     private float timer;
 
-    private void Update()
+    [SerializeField] private GameObject nextWavePrompt;
+    [SerializeField] private TextMeshProUGUI promptText;
+
+    private bool waitingForNextWave;
+
+    [SerializeField] private int currentWave = 1;
+
+    private int aliveEnemies;
+
+    private void Awake()
     {
-        timer += Time.deltaTime;
-
-        if (timer >= spawnInterval)
+        if (Instance == null)
         {
-            timer = 0f;
-
-            SpawnEnemy();
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void SpawnEnemy()
+    private void Start()
     {
-        int enemyID = GetRandomEnemyID();
+        LoadWave(currentWave);
+    }
 
+    private void Update()
+    {
+        if (waitingForNextWave)
+        {
+            if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                waitingForNextWave = false;
+
+                if (nextWavePrompt != null)
+                {
+                    nextWavePrompt.SetActive(false);
+                }
+
+                currentWave++;
+                LoadWave(currentWave);
+            }
+
+            return;
+        }
+
+        if (currentSpawn == null)
+        {
+            return;
+        }
+
+        timer += Time.deltaTime;
+
+        if (timer >= currentSpawn.spawnInterval)
+        {
+            timer = 0f;
+
+            SpawnEnemy(currentSpawn.enemyID);
+
+            remainingCount--;
+
+            if (remainingCount <= 0)
+            {
+                StartNextSpawnGroup();
+            }
+        }
+    }
+
+    private bool WaveFinished()
+    {
+        return aliveEnemies <= 0 && currentSpawn == null && spawnQueue.Count == 0;
+    }
+
+    public void OnEnemyKilled()
+    {
+        aliveEnemies--;
+
+        if (WaveFinished())
+        {
+            StartNextWave();
+        }
+    }
+
+    private void SpawnEnemy(int enemyID)
+    {
         Vector3 spawnPoint = GetSpawnPosition();
 
         GameObject enemyObject = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
@@ -37,6 +112,8 @@ public class EnemySpawner : MonoBehaviour
 
         enemy.enemyID = enemyID;
         enemy.InitializeEnemy();
+
+        aliveEnemies++;
     }
 
 
@@ -49,29 +126,57 @@ public class EnemySpawner : MonoBehaviour
         return player.position + (Vector3)(dir * dist);
     }
 
-    private int GetRandomEnemyID()
+    private void LoadWave(int waveID)
     {
-        List<EnemyData> enemies = EnemyDatabase.Instance.GetAllEnemies();
+        spawnQueue.Clear();
 
-        int totalWeight = 0;
+        WaveData wave = WaveDatabase.Instance.GetWave(waveID);
 
-        foreach (EnemyData enemy in enemies)
+        if (wave == null)
         {
-            totalWeight += enemy.spawnWeight;
+            return;
         }
 
-        int roll = Random.Range(0, totalWeight);
-
-        foreach (EnemyData enemy in enemies)
+        foreach (var spawn in wave.spawns)
         {
-            roll -= enemy.spawnWeight;
+            spawnQueue.Enqueue(spawn);
+        }
 
-            if (roll < 0)
+        StartNextSpawnGroup();
+    }
+
+    private void StartNextSpawnGroup()
+    {
+        if (spawnQueue.Count == 0)
+        {
+            currentSpawn = null;
+
+            if (WaveFinished())
             {
-                return enemy.enemyID;
+                StartNextWave();
             }
+
+            return;
         }
 
-        return enemies[0].enemyID;
+        currentSpawn = spawnQueue.Dequeue();
+        remainingCount = currentSpawn.spawnCount;
+        timer = 0f;
+    }
+
+    private void StartNextWave()
+    {
+        waitingForNextWave = true;
+
+        if (nextWavePrompt != null)
+        {
+            nextWavePrompt.SetActive(true);
+        }
+
+        if (promptText != null)
+        {
+            promptText.text =
+                $"Wave {currentWave} Complete\n\nPress SPACE to start Wave {currentWave + 1}";
+        }
     }
 }

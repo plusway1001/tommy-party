@@ -173,3 +173,4 @@ MonoBehaviour:
   damage: 0
   speed: 20
   lifetime: 2
+  originTag: 

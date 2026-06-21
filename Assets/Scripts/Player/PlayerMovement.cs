@@ -28,6 +28,16 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
     }
 
+    public void Knockback(Transform enemy, float force)
+    {
+        if (rb != null)
+        {
+            Vector2 knockbackDirection = (transform.position - enemy.position).normalized;
+
+            rb.AddForce(knockbackDirection * force, ForceMode2D.Impulse);
+        }
+    }
+
     private void OnMove(InputValue inputValue)
     {
         movementInput = inputValue.Get<Vector2>();

@@ -13,6 +13,9 @@ public class EnemyData
     public float detectionRange;
     public float stoppingRange;
 
+    public int contactDamage;
+    public float knockbackForce;
+
     public int lootTableID;
     public int spawnWeight;
 

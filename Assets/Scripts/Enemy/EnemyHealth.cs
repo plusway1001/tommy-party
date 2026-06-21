@@ -62,6 +62,8 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        Debug.Log("test die");
+        EnemySpawner.Instance.OnEnemyKilled();
         Destroy(gameObject);
     }
 }

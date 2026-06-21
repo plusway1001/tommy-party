@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
     [HideInInspector] public int maxHealth;
     [HideInInspector] public int currentHealth;
 
-    private bool invincible;
+    public bool invincible;
 
     public Action OnDeath;
 
@@ -15,13 +15,13 @@ public class Health : MonoBehaviour
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
 
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer sr;
     private Color originalColor;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
+        sr = GetComponent<SpriteRenderer>();
+        originalColor = sr.color;
     }
 
     public void Initialize(int health)
@@ -34,28 +34,23 @@ public class Health : MonoBehaviour
     {
         // Flash effect
         //CameraShake.Instance.Shake(0.1f, 0.15f);
-        ParticleEffectManager.Instance.PlayHitEffect(transform.position);
-        StartCoroutine(HitFlash());
-        if (GetComponent<PlayerHealth>() != null)
+        if (gameObject.CompareTag("Player"))
         {
             if (!invincible)
             {
                 currentHealth -= damage;
+                ParticleEffectManager.Instance.PlayHitEffect(transform.position);
+                StartCoroutine(HitFlash());
+
                 invincible = true;
-                foreach (SpriteRenderer sprite in GetComponentsInParent<SpriteRenderer>())
-                {
-                    sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);
-                }
-                foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
-                {
-                    sprite.color = new Color (sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);  
-                }
+
                 StartCoroutine(Invincibility(GetComponent<PlayerHealth>().iFrameDuration));
             }
         }
         else
         {
             currentHealth -= damage;
+            StartCoroutine(HitFlash());
         }
 
         if(currentHealth <= 0)
@@ -66,34 +61,54 @@ public class Health : MonoBehaviour
 
     IEnumerator Invincibility(float duration)
     {
+        SetAlpha(0.1f);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
         yield return new WaitForSeconds(duration);
+
+        SetAlpha(1.0f);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+
         invincible = false;
-        foreach (SpriteRenderer sprite in GetComponentsInParent<SpriteRenderer>())
-        {
-            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
-        }
-        foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
-        {
-            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
-        }
     }
 
     IEnumerator HitFlash()
     {
-        // Change color
-        spriteRenderer.color = flashColor;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        // Wait
+        Color flash = new Color(1f, 0f, 0f, sr.color.a);
+
+        sr.color = flash;
+
         yield return new WaitForSeconds(flashDuration);
 
-        // Back to normal
-        spriteRenderer.color = originalColor;
+        sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, sr.color.a);
+    }
+
+    private void SetAlpha(float a)
+    {
+        Color c = sr.color;
+        c.a = a;
+        sr.color = c;
+
+        foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>())
+        {
+            Color cc = s.color;
+            cc.a = a;
+            s.color = cc;
+        }
     }
 
     private void Die()
     {
         OnDeath?.Invoke();
         ParticleEffectManager.Instance.PlayExplosionEffect(transform.position);
+
+        if (gameObject.CompareTag("Enemy"))
+        {
+            EnemySpawner.Instance.OnEnemyKilled();
+        }
+
         Destroy(gameObject);
     }
 }
