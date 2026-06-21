@@ -26,7 +26,10 @@ public class SellZone : MonoBehaviour
             if (player != null)
             {
                 player.inSellZone = false;
-                prompt.SetActive(false);
+                if (prompt != null)
+                {
+                    prompt.SetActive(false);
+                }
             }
         }
     }

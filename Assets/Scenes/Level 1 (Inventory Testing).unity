@@ -1783,8 +1783,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
   inventory: {fileID: 1074493495}
   slots:
-  - {fileID: 454906474}
   - {fileID: 1427925109}
+  - {fileID: 454906474}
 --- !u!114 &683747195
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -19,8 +18,6 @@ public class InventoryUI : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
     }
 
@@ -33,11 +30,6 @@ public class InventoryUI : MonoBehaviour
     private void OnDisable()
     {
         inventory.OnItemChanged -= RefreshUI;
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void RefreshUI(int _, int __)
@@ -75,14 +67,5 @@ public class InventoryUI : MonoBehaviour
             return -1;
 
         return slots[slotIndex].CurrentLootID;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        inventory = FindFirstObjectByType<Inventory>();
-
-        slots = FindObjectsByType<InventorySlotUI>(FindObjectsSortMode.None);
-
-        RefreshUI(0, 0);
     }
 }
