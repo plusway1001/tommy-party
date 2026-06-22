@@ -3,6 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum flashtype
+{
+    Color,
+    Material
+}
+
 public class Health : MonoBehaviour
 {
     [HideInInspector] public int maxHealth;
@@ -15,6 +21,11 @@ public class Health : MonoBehaviour
     [Header("Hit Flash")]
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
+
+    [SerializeField] private Material flashMaterial;
+    [SerializeField] private Material originalMaterial;
+
+    public flashtype flashtype;
 
     private SpriteRenderer sr;
     private Color originalColor;
@@ -35,7 +46,14 @@ public class Health : MonoBehaviour
 
         spawner = FindFirstObjectByType<EnemySpawner>();
 
-        originalColor = sr.color;
+        if (flashtype == flashtype.Color)
+        {
+            originalColor = sr.color;
+        }
+        else
+        {
+            originalMaterial = sr.material;
+        }
     }
 
     private void Start()
@@ -55,7 +73,16 @@ public class Health : MonoBehaviour
         maxHealth = health;
         currentHealth = health;
 
-        sr.color = originalColor;
+        if (sr == null) return;
+
+        if (flashtype == flashtype.Color)
+        {
+            sr.color = originalColor;
+        }
+        else
+        {
+            sr.material = originalMaterial;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -69,7 +96,14 @@ public class Health : MonoBehaviour
                 currentHealth -= damage;
                 currentHealth = Mathf.Max(currentHealth, 0);
                 ParticleEffectManager.Instance.PlayHitEffect(transform.position);
-                StartCoroutine(HitFlash());
+                if (flashtype == flashtype.Color)
+                {
+                    StartCoroutine(HitFlashColor());
+                }
+                else
+                {
+                    StartCoroutine(HitFlashMat());
+                }
 
                 invincible = true;
 
@@ -80,7 +114,15 @@ public class Health : MonoBehaviour
         {
             currentHealth -= damage;
             currentHealth = Mathf.Max(currentHealth, 0);
-            StartCoroutine(HitFlash());
+            //StartCoroutine(HitFlashColor());
+            if (flashtype == flashtype.Color)
+            {
+                StartCoroutine(HitFlashColor());
+            }
+            else
+            {
+                StartCoroutine(HitFlashMat());
+            }
         }
 
         if(currentHealth <= 0)
@@ -102,7 +144,7 @@ public class Health : MonoBehaviour
         invincible = false;
     }
 
-    IEnumerator HitFlash()
+    IEnumerator HitFlashColor()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
@@ -113,6 +155,17 @@ public class Health : MonoBehaviour
         yield return new WaitForSeconds(flashDuration);
 
         sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, sr.color.a);
+    }
+
+    IEnumerator HitFlashMat()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        sr.material = flashMaterial;
+
+        yield return new WaitForSeconds(flashDuration);
+
+        sr.material = originalMaterial;
     }
 
     private void SetAlpha(float a)

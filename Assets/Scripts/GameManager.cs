@@ -8,15 +8,15 @@ public class GameManager : MonoBehaviour
     public static GameManager instance {  get; private set; }
 
     [SerializeField] private int fps;
-    public static bool isPaused = false;
-
-    public CanvasGroup pausepanel;
+    public bool hideCursor = false;
 
     private GameObject player;
     private PlayerHealth health;
     private Health playerHealth;
 
     private TextMeshProUGUI gameOverPrompt;
+
+    //public PauseManager PM;
 
     public int Currency { get; private set; }
 
@@ -33,22 +33,14 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = fps;
-        //Cursor.visible = false;
+        if (hideCursor)
+        {
+            Cursor.visible = false;
+        }
     }
 
     private void Update()
     {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            if (!isPaused)
-            {
-                PauseGame();
-            }
-            else
-            {
-                ResumeGame();
-            }
-        }
 
         if (playerHealth.dead)
         {
@@ -68,22 +60,6 @@ public class GameManager : MonoBehaviour
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }
-    }
-
-    public void PauseGame()
-    {
-        Time.timeScale = 0f;
-        pausepanel.alpha = 1f;
-        pausepanel.interactable = true;
-        isPaused = true;
-    }
-
-    public void ResumeGame()
-    {
-        Time.timeScale = 1f;
-        pausepanel.alpha = 0f;
-        pausepanel.interactable = false;
-        isPaused = false;
     }
 
     public void AddCurrency(int amount)
@@ -113,6 +89,6 @@ public class GameManager : MonoBehaviour
         playerHealth = FindFirstObjectByType<Health>();
 
         gameOverPrompt = GameObject.Find("GameOverPrompt").GetComponent<TextMeshProUGUI>();
-        pausepanel = GameObject.Find("Pause Overlay").GetComponent<CanvasGroup>();
+        //PM.pausepanel = GameObject.Find("Pause Overlay").GetComponent<CanvasGroup>();
     }
 }
