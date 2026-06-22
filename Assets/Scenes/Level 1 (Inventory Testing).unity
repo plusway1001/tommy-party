@@ -1790,7 +1790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   fps: 144
-  pausepanel: {fileID: 531843108}
+  pausepanel: {fileID: 531843112}
 --- !u!4 &683747192
 Transform:
   m_ObjectHideFlags: 0
@@ -1893,6 +1893,11 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
   dead: 0
+  MultiplyMinCount: 0
+  MultiplyMaxCount: 3
+  MultiplyEnemies: {fileID: 0}
+  canMultiply: 0
+  spawnDistance: 5
 --- !u!50 &721087801
 Rigidbody2D:
   serializedVersion: 5
@@ -2604,6 +2609,11 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
   dead: 0
+  MultiplyMinCount: 0
+  MultiplyMaxCount: 3
+  MultiplyEnemies: {fileID: 7265529254090891452, guid: f4407b5fdd9c1ee428664e4c8e539074, type: 3}
+  canMultiply: 0
+  spawnDistance: 5
 --- !u!114 &1074493494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3848,6 +3858,11 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
   dead: 0
+  MultiplyMinCount: 0
+  MultiplyMaxCount: 3
+  MultiplyEnemies: {fileID: 0}
+  canMultiply: 0
+  spawnDistance: 5
 --- !u!50 &1805238546
 Rigidbody2D:
   serializedVersion: 5

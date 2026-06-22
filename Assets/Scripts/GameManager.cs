@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = fps;
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     private void Update()

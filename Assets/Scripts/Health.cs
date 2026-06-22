@@ -23,6 +23,12 @@ public class Health : MonoBehaviour
 
     EnemySpawner spawner;
 
+    [SerializeField] private int MultiplyMinCount = 0, MultiplyMaxCount = 3;
+    [SerializeField] private GameObject MultiplyEnemies;
+    //[SerializeField] private int enemyIDMultiply;
+    [SerializeField] private bool canMultiply;
+    [SerializeField] private float spawnDistance = 5f;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -55,7 +61,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Flash effect
-        //CameraShake.Instance.Shake(0.1f, 0.15f);
+        CameraShake.Instance.Shake(0.1f, 0.05f);
         if (gameObject.CompareTag("Player"))
         {
             if (!invincible)
@@ -130,6 +136,10 @@ public class Health : MonoBehaviour
 
         if (gameObject.CompareTag("Enemy"))
         {
+            if (canMultiply)
+            {
+                MultiplyEnemiesSpawn();
+            }
             EnemyBehaviour enemy = gameObject.GetComponent<EnemyBehaviour>();
             if (enemy != null)
             {
@@ -143,5 +153,26 @@ public class Health : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void MultiplyEnemiesSpawn()
+    {
+        EnemyBehaviour enemyIDID = this.GetComponent<EnemyBehaviour>();
+        int SpawnCount = UnityEngine.Random.Range(MultiplyMinCount, MultiplyMaxCount);
+
+        for (int a = 0; a < SpawnCount; a++)
+        {
+            float xOffset = UnityEngine.Random.value > 0.5f ? spawnDistance : -spawnDistance;
+
+            Vector2 spawnPosition = new Vector2(
+                this.transform.position.x + xOffset,
+                this.transform.position.y
+            );
+            GameObject enemyObject = Instantiate(MultiplyEnemies, spawnPosition, Quaternion.identity);
+            EnemyBehaviour enemy = enemyObject.GetComponent<EnemyBehaviour>();
+            enemy.enemyID = enemyIDID.enemyID;
+            enemy.InitializeEnemy();
+        }
+
     }
 }
