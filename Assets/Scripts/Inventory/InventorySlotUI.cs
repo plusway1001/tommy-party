@@ -14,7 +14,7 @@ public class InventorySlotUI : MonoBehaviour
         Clear();
     }
 
-    public void SetItem(Sprite sprite, int amount, int lootID)
+    public void SetItem(Sprite sprite, string name, int amount, int lootID)
     {
         CurrentLootID = lootID;
 
@@ -22,7 +22,7 @@ public class InventorySlotUI : MonoBehaviour
         amountText.gameObject.SetActive(true);
 
         icon.sprite = sprite;
-        amountText.text = "Owned: " + amount.ToString();
+        amountText.text = $"{name}: {amount.ToString()}";
     }
 
     public void Clear()

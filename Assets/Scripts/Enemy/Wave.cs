@@ -13,4 +13,5 @@ public class WaveSpawnData
     public int enemyID;
     public int spawnCount;
     public float spawnInterval;
+    public int maxAlive;
 }

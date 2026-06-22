@@ -2,46 +2,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public static EnemySpawner Instance;
-
     [SerializeField] private GameObject enemyPrefab;
-
-    [SerializeField] private Transform player;
+    private Transform player;
     [SerializeField] private float minSpawnDistance = 12f;
     [SerializeField] private float maxSpawnDistance = 18f;
 
-    private Queue<WaveSpawnData> spawnQueue = new();
-
-    private WaveSpawnData currentSpawn;
-    private int remainingCount;
-    private float timer;
+    private Dictionary<int, int> aliveByType = new();
 
     [SerializeField] private GameObject nextWavePrompt;
-    [SerializeField] private TextMeshProUGUI promptText;
-
+    [SerializeField] private TextMeshProUGUI nextWavePromptText;
     private bool waitingForNextWave;
 
     [SerializeField] private int currentWave = 1;
-
     private int aliveEnemies;
+    private int finalWave;
 
-    private void Awake()
+    [SerializeField] private GameObject winPrompt;
+    [SerializeField] private TextMeshProUGUI winPromptText;
+    private bool gameWon;
+
+    private List<ActiveSpawnGroup> activeGroups = new();
+    private bool waveStarted = false;
+
+    private class ActiveSpawnGroup
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        public WaveSpawnData data;
+        public int remaining;
+        public float timer;
     }
 
     private void Start()
     {
+        player = GameObject.FindWithTag("Player").transform;
+
+        finalWave = WaveDatabase.Instance.GetFinalWave();
         LoadWave(currentWave);
     }
 
@@ -52,49 +50,63 @@ public class EnemySpawner : MonoBehaviour
             if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 waitingForNextWave = false;
-
-                if (nextWavePrompt != null)
-                {
-                    nextWavePrompt.SetActive(false);
-                }
-
+                if (nextWavePrompt != null) nextWavePrompt.SetActive(false);
                 currentWave++;
                 LoadWave(currentWave);
             }
-
             return;
         }
 
-        if (currentSpawn == null)
+        if (gameWon)
         {
-            return;
-        }
-
-        timer += Time.deltaTime;
-
-        if (timer >= currentSpawn.spawnInterval)
-        {
-            timer = 0f;
-
-            SpawnEnemy(currentSpawn.enemyID);
-
-            remainingCount--;
-
-            if (remainingCount <= 0)
+            if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
-                StartNextSpawnGroup();
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            return;
+        }
+
+        for (int i = activeGroups.Count - 1; i >= 0; i--)
+        {
+            ActiveSpawnGroup group = activeGroups[i];
+            group.timer += Time.deltaTime;
+
+            if (group.timer >= group.data.spawnInterval)
+            {
+                int aliveOfType = aliveByType.GetValueOrDefault(group.data.enemyID);
+
+                if (aliveOfType < group.data.maxAlive)
+                {
+                    group.timer = 0f;
+                    SpawnEnemy(group.data.enemyID);
+                    group.remaining--;
+
+                    if (group.remaining <= 0)
+                        activeGroups.RemoveAt(i);
+                }
+            }
+        }
+
+        if (WaveFinished())
+        {
+            StartNextWave();
         }
     }
 
     private bool WaveFinished()
     {
-        return aliveEnemies <= 0 && currentSpawn == null && spawnQueue.Count == 0;
+        return waveStarted && aliveEnemies <= 0 && activeGroups.Count == 0;
     }
 
-    public void OnEnemyKilled()
+    public void OnEnemyKilled(int enemyID)
     {
         aliveEnemies--;
+
+        if (aliveByType.ContainsKey(enemyID))
+        {
+            aliveByType[enemyID]--;
+        }
 
         if (WaveFinished())
         {
@@ -105,37 +117,32 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(int enemyID)
     {
         Vector3 spawnPoint = GetSpawnPosition();
-
         GameObject enemyObject = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
-
         EnemyBehaviour enemy = enemyObject.GetComponent<EnemyBehaviour>();
-
         enemy.enemyID = enemyID;
         enemy.InitializeEnemy();
 
         aliveEnemies++;
+        aliveByType.TryAdd(enemyID, 0);
+        aliveByType[enemyID]++;
     }
 
     private Vector3 GetSpawnPosition()
     {
         Vector2 dir = Random.insideUnitCircle.normalized;
-
         float dist = Random.Range(minSpawnDistance, maxSpawnDistance);
-
-        if (player != null)
-        {
-            return player.position + (Vector3)(dir * dist);
-        }
-
+        if (player != null) return player.position + (Vector3)(dir * dist);
         return Vector3.zero;
     }
 
     private void LoadWave(int waveID)
     {
-        spawnQueue.Clear();
+        activeGroups.Clear();
+        waveStarted = false;
+        aliveEnemies = 0;
+        aliveByType.Clear();
 
         WaveData wave = WaveDatabase.Instance.GetWave(waveID);
-
         if (wave == null)
         {
             return;
@@ -143,77 +150,42 @@ public class EnemySpawner : MonoBehaviour
 
         foreach (var spawn in wave.spawns)
         {
-            spawnQueue.Enqueue(spawn);
-        }
-
-        StartNextSpawnGroup();
-    }
-
-    private void StartNextSpawnGroup()
-    {
-        if (spawnQueue.Count == 0)
-        {
-            currentSpawn = null;
-
-            if (WaveFinished())
+            activeGroups.Add(
+                new ActiveSpawnGroup
             {
-                StartNextWave();
-            }
-
-            return;
+                data = spawn,
+                remaining = spawn.spawnCount,
+                timer = spawn.spawnInterval
+            });
         }
 
-        currentSpawn = spawnQueue.Dequeue();
-        remainingCount = currentSpawn.spawnCount;
-        timer = 0f;
+        waveStarted = true;
     }
 
     private void StartNextWave()
     {
-        waitingForNextWave = true;
-
-        if (nextWavePrompt != null)
+        if (currentWave >= finalWave)
         {
-            nextWavePrompt.SetActive(true);
+            WinGame();
+            return;
         }
 
-        if (promptText != null)
+        waitingForNextWave = true;
+        if (nextWavePrompt != null) nextWavePrompt.SetActive(true);
+        if (nextWavePromptText != null)
         {
-            promptText.text =
-                $"Wave {currentWave} Complete\n\nPress SPACE to start Wave {currentWave + 1}";
+            nextWavePromptText.text = $"Wave {currentWave} Complete\n\nPress SPACE to start Wave {currentWave + 1}";
         }
     }
 
-    public void ResetWaves()
+    private void WinGame()
     {
-        EnemyBehaviour[] enemies = FindObjectsByType<EnemyBehaviour>(FindObjectsSortMode.None);
-
-        foreach (EnemyBehaviour enemy in enemies)
+        gameWon = true;
+        if (winPrompt != null) winPrompt.SetActive(true);
+        if (winPromptText != null)
         {
-            Destroy(enemy.gameObject);
+            winPromptText.text = $"You survived all {finalWave} waves!\n\nPress SPACE to Restart";
         }
-
-        LootPickup[] lootItems = FindObjectsByType<LootPickup>(FindObjectsSortMode.None);
-
-        foreach (LootPickup loot in lootItems)
-        {
-            Destroy(loot.gameObject);
-        }
-
-        aliveEnemies = 0;
-        currentWave = 1;
-        waitingForNextWave = false;
-
-        spawnQueue.Clear();
-        currentSpawn = null;
-        remainingCount = 0;
-        timer = 0f;
-
-        if (nextWavePrompt != null)
-        {
-            nextWavePrompt.SetActive(false);
-        }
-
-        LoadWave(currentWave);
+        Time.timeScale = 0f;
     }
 }

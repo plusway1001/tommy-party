@@ -1,13 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerAbilities : MonoBehaviour
 {
-    [SerializeField] private GameObject bombPrefab;
+    InventoryUI inventoryUI;
+    Health playerHealth;
 
+    [Header("Bomb")]
+    [SerializeField] private GameObject bombPrefab;
     [SerializeField] private float spawnDistance = 1f;
 
+    [Header("Potion")]
+    [SerializeField] private int healAmt;
+
     public bool inSellZone = false;
+
+    private void Awake()
+    {
+        inventoryUI = FindFirstObjectByType<InventoryUI>();
+        playerHealth = GetComponent<Health>();
+    }
 
     private void Update()
     {
@@ -27,7 +40,7 @@ public class PlayerAbilities : MonoBehaviour
 
     private void UseSlot(int slotIndex)
     {
-        int lootID = InventoryUI.instance.GetLootIDInSlot(slotIndex);
+        int lootID = inventoryUI.GetLootIDInSlot(slotIndex);
 
         if (lootID == -1)
         {
@@ -53,6 +66,9 @@ public class PlayerAbilities : MonoBehaviour
             case "Bomb":
                 UseBomb(lootID);
                 break;
+            case "Potion":
+                UsePotion(lootID); 
+                break;
         }
     }
 
@@ -65,6 +81,16 @@ public class PlayerAbilities : MonoBehaviour
 
         Vector3 spawnPos = transform.position + transform.up * spawnDistance;
         Instantiate(bombPrefab, spawnPos, Quaternion.identity);
+    }
+
+    private void UsePotion(int lootID)
+    {
+        if (!Inventory.instance.RemoveItem(lootID, 1))
+        {
+            return;
+        }
+
+        playerHealth.currentHealth = Mathf.Min(playerHealth.currentHealth + healAmt, playerHealth.maxHealth);
     }
 
     private void SellItem(int lootID)
@@ -82,5 +108,20 @@ public class PlayerAbilities : MonoBehaviour
         }
 
         GameManager.instance.AddCurrency(loot.sellPrice);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        inventoryUI = FindFirstObjectByType<InventoryUI>();
     }
 }

@@ -3,22 +3,14 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    public static InventoryUI instance { get; set; }
-
     [SerializeField] private Inventory inventory;
     [SerializeField] private InventorySlotUI[] slots;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        GameObject player = GameObject.FindWithTag("Player");
+
+        inventory = player.GetComponent<Inventory>();
     }
 
     private void OnEnable()
@@ -29,7 +21,10 @@ public class InventoryUI : MonoBehaviour
 
     private void OnDisable()
     {
-        inventory.OnItemChanged -= RefreshUI;
+        if (inventory != null)
+        {
+            inventory.OnItemChanged -= RefreshUI;
+        }
     }
 
     private void RefreshUI(int _, int __)
@@ -55,7 +50,7 @@ public class InventoryUI : MonoBehaviour
 
             Sprite sprite = prefab.GetComponent<SpriteRenderer>().sprite;
 
-            slots[slotIndex].SetItem(sprite, amount, lootID);
+            slots[slotIndex].SetItem(sprite, loot.lootName, amount, lootID);
 
             slotIndex++;
         }

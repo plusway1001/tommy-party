@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,13 +10,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int fps;
     public static bool isPaused = false;
 
-    public GameObject pausepanel;
+    public CanvasGroup pausepanel;
 
-    [SerializeField] private GameObject player;
-    [SerializeField] private PlayerHealth health;
-    [SerializeField] private Health playerHealth;
+    private GameObject player;
+    private PlayerHealth health;
+    private Health playerHealth;
 
-    [SerializeField] private GameObject gameOverPrompt;
+    private TextMeshProUGUI gameOverPrompt;
 
     public int Currency { get; private set; }
 
@@ -51,31 +52,37 @@ public class GameManager : MonoBehaviour
 
         if (playerHealth.dead)
         {
+            gameOverPrompt.text = "Game Over!\r\n\r\nPress 'R' to restart!";
             if (Keyboard.current.rKey.wasPressedThisFrame)
             {
-                player.transform.position = player.GetComponent<PlayerMovement>().initialPos;
-                playerHealth.dead = false;
-                playerHealth.Initialize(health.maxHealth);
-                player.SetActive(true);
-
-                gameOverPrompt.SetActive(false);
-
-                EnemySpawner.Instance.ResetWaves();
+                Inventory.instance.ResetInventory();
+                Scene currentScene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(currentScene.name);
             }
+        }
+
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            Inventory.instance.ResetInventory();
+            playerHealth.Initialize(health.maxHealth);
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
         }
     }
 
     public void PauseGame()
     {
         Time.timeScale = 0f;
-        pausepanel.SetActive(true);
+        pausepanel.alpha = 1f;
+        pausepanel.interactable = true;
         isPaused = true;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1f;
-        pausepanel.SetActive(false);
+        pausepanel.alpha = 0f;
+        pausepanel.interactable = false;
         isPaused = false;
     }
 
@@ -87,5 +94,25 @@ public class GameManager : MonoBehaviour
     public void SetCurrency(int amount)
     {
         Currency = amount;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        player = GameObject.FindWithTag("Player");
+        health = FindFirstObjectByType<PlayerHealth>();
+        playerHealth = FindFirstObjectByType<Health>();
+
+        gameOverPrompt = GameObject.Find("GameOverPrompt").GetComponent<TextMeshProUGUI>();
+        pausepanel = GameObject.Find("Pause Overlay").GetComponent<CanvasGroup>();
     }
 }

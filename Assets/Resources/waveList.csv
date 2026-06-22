@@ -1,6 +1,6 @@
-waveID,enemyID,spawnCount,spawnInterval
-1,1,10,2
-2,0,15,3
-2,1,5,5
-3,0,20,3
-3,1,10,5
+waveID,enemyID,spawnCount,spawnInterval,maxAlive
+1,1,5,4,5
+2,0,5,3,3
+2,1,5,4,4
+3,0,10,3,4
+3,1,10,3,5

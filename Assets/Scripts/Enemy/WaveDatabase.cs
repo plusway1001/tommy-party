@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WaveDatabase : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class WaveDatabase : MonoBehaviour
             int enemyID = int.Parse(columns[1]);
             int spawnCount = int.Parse(columns[2]);
             float spawnInterval = float.Parse(columns[3]);
+            int maxAlive = int.Parse(columns[4]);
 
             if (!waveDatabase.ContainsKey(waveID))
             {
@@ -56,7 +58,8 @@ public class WaveDatabase : MonoBehaviour
                 {
                     enemyID = enemyID,
                     spawnCount = spawnCount,
-                    spawnInterval = spawnInterval
+                    spawnInterval = spawnInterval,
+                    maxAlive = maxAlive
                 });
         }
     }
@@ -76,5 +79,10 @@ public class WaveDatabase : MonoBehaviour
     public List<WaveData> GetAllWaves()
     {
         return new List<WaveData>(waveDatabase.Values);
+    }
+
+    public int GetFinalWave()
+    {
+        return waveDatabase.Keys.Max();
     }
 }

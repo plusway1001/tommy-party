@@ -52,7 +52,8 @@ public class EnemyDatabase : MonoBehaviour
                 knockbackForce = float.Parse(columns[9]),
 
                 lootTableID = int.Parse(columns[10]),
-                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[11]}")
+                lootDropChance = float.Parse(columns[11]),
+                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[12]}")
             };
 
             enemyDatabase.Add(enemy.enemyID, enemy);

@@ -92,4 +92,14 @@ public class Inventory : MonoBehaviour
     {
         return items;
     }
+
+    public void ResetInventory()
+    {
+        foreach (var item in items)
+        {
+            OnItemChanged?.Invoke(item.Key, 0);
+        }
+
+        items.Clear();
+    }
 }

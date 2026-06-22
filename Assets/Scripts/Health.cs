@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -18,13 +19,29 @@ public class Health : MonoBehaviour
     private SpriteRenderer sr;
     private Color originalColor;
 
-    [SerializeField] GameObject gameOverPrompt;
     public bool dead = false;
+
+    EnemySpawner spawner;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+
+        spawner = FindFirstObjectByType<EnemySpawner>();
+
         originalColor = sr.color;
+    }
+
+    private void Start()
+    {
+        dead = false;
+        invincible = false;
+        SetAlpha(1.0f);
+
+        if (gameObject.CompareTag("Player"))
+        {
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        }
     }
 
     public void Initialize(int health)
@@ -44,6 +61,7 @@ public class Health : MonoBehaviour
             if (!invincible)
             {
                 currentHealth -= damage;
+                currentHealth = Mathf.Max(currentHealth, 0);
                 ParticleEffectManager.Instance.PlayHitEffect(transform.position);
                 StartCoroutine(HitFlash());
 
@@ -55,6 +73,7 @@ public class Health : MonoBehaviour
         else
         {
             currentHealth -= damage;
+            currentHealth = Mathf.Max(currentHealth, 0);
             StartCoroutine(HitFlash());
         }
 
@@ -111,21 +130,18 @@ public class Health : MonoBehaviour
 
         if (gameObject.CompareTag("Enemy"))
         {
-            EnemySpawner.Instance.OnEnemyKilled();
-            Destroy(gameObject);
+            EnemyBehaviour enemy = gameObject.GetComponent<EnemyBehaviour>();
+            if (enemy != null)
+            {
+                spawner.OnEnemyKilled(enemy.enemyID);
+            }
         }
         
         else if (gameObject.CompareTag("Player"))
         {
-            gameOverPrompt.SetActive(true);
             dead = true;
-
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-
-            invincible = false;
-            SetAlpha(1.0f);
-
-            gameObject.SetActive(false);
         }
+
+        Destroy(gameObject);
     }
 }

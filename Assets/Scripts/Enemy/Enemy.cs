@@ -17,7 +17,7 @@ public class EnemyData
     public float knockbackForce;
 
     public int lootTableID;
-    public int spawnWeight;
+    public float lootDropChance;
 
     public Sprite sprite;
 }

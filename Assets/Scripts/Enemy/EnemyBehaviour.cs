@@ -17,6 +17,7 @@ public class EnemyBehaviour : MonoBehaviour
     private float knockbackForce;
 
     private int lootTableID;
+    private float lootDropChance;
 
     private Health health;
     private Rigidbody2D rb;
@@ -128,6 +129,7 @@ public class EnemyBehaviour : MonoBehaviour
         knockbackForce = data.knockbackForce;
 
         lootTableID = data.lootTableID;
+        lootDropChance = data.lootDropChance;
 
         sr.sprite = data.sprite;
 
@@ -170,7 +172,14 @@ public class EnemyBehaviour : MonoBehaviour
     private void DropLoot()
     {
         if (lootTable.entries.Count == 0)
+        {
             return;
+        }
+
+        if(Random.value > lootDropChance)
+        {
+            return;
+        }
 
         float totalWeight = 0f;
 

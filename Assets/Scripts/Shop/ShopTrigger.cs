@@ -67,6 +67,9 @@ public class ShopTrigger : MonoBehaviour
 
         playerInRange = false;
 
-        promptUI.SetActive(false);
+        if (promptUI != null)
+        {
+            promptUI.SetActive(false);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerFire : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerFire : MonoBehaviour
 
     private WeaponList weaponList;
     private Weapon currentWeapon;
+
     [SerializeField] private int weaponID;
 
     private void Awake()
@@ -95,5 +97,25 @@ public class PlayerFire : MonoBehaviour
 
             weaponList.weapons.Add(weapon);
         }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (weaponList == null || weaponList.weapons == null || weaponList.weapons.Count == 0)
+        {
+            return;
+        }
+        currentWeapon = weaponList.weapons[0];
+        OnWeaponChanged?.Invoke(currentWeapon.name, currentWeapon.sprite);
     }
 }

@@ -1,4 +1,4 @@
 lootID,lootName,buyPrice,sellPrice,prefab
 0,Coin,0,0,Coin
 1,Bomb,10,5,Bomb
-2,Test,20,10,Test
+2,Potion,20,10,Potion

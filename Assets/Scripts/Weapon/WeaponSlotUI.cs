@@ -7,7 +7,12 @@ public class WeaponSlotUI : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text weaponNameText;
 
-    [SerializeField] private PlayerFire player;
+    private PlayerFire player;
+
+    private void Awake()
+    {
+        player = FindFirstObjectByType<PlayerFire>();
+    }
 
     private void OnEnable()
     {
