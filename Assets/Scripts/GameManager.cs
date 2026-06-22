@@ -88,7 +88,10 @@ public class GameManager : MonoBehaviour
         health = FindFirstObjectByType<PlayerHealth>();
         playerHealth = FindFirstObjectByType<Health>();
 
-        gameOverPrompt = GameObject.Find("GameOverPrompt").GetComponent<TextMeshProUGUI>();
+        if (GameObject.Find("GameOverPrompt") != null)
+        {
+            gameOverPrompt = GameObject.Find("GameOverPrompt").GetComponent<TextMeshProUGUI>();
+        }
         //PM.pausepanel = GameObject.Find("Pause Overlay").GetComponent<CanvasGroup>();
     }
 }
