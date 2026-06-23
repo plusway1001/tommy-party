@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 5829671141659951722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.398056, y: -3.4310367, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -211,10 +211,7 @@ MonoBehaviour:
   originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   flashtype: 1
   dead: 0
-  MultiplyMinCount: 0
-  MultiplyMaxCount: 0
   MultiplyEnemies: {fileID: 5829671141659951722}
-  canMultiply: 0
   spawnDistance: 0.25
 --- !u!114 &5134219983939511648
 MonoBehaviour:
@@ -229,5 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBehaviour
   enemyID: 0
+  contactDamage: 0
+  multiplyMinCount: 0
+  multiplyMaxCount: 0
   firePoint: {fileID: 2913944350802710201}
   bulletPrefab: {fileID: 4260920406473507209, guid: f986a718ad7dce74ca3a11d181dbf47a, type: 3}

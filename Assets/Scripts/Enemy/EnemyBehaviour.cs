@@ -13,11 +13,14 @@ public class EnemyBehaviour : MonoBehaviour
     private float detectionRange;
     private float stoppingRange;
 
-    private int contactDamage;
+    public int contactDamage;
     private float knockbackForce;
 
     private int lootTableID;
     private float lootDropChance;
+
+    public int multiplyMinCount;
+    public int multiplyMaxCount;
 
     private Health health;
     private Rigidbody2D rb;
@@ -130,6 +133,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         lootTableID = data.lootTableID;
         lootDropChance = data.lootDropChance;
+
+        multiplyMinCount = data.multiplyMinCount;
+        multiplyMaxCount = data.multiplyMaxCount;
 
         sr.sprite = data.sprite;
 

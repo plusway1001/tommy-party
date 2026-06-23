@@ -19,5 +19,8 @@ public class EnemyData
     public int lootTableID;
     public float lootDropChance;
 
+    public int multiplyMinCount;
+    public int multiplyMaxCount;
+
     public Sprite sprite;
 }

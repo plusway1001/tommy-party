@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance {  get; private set; }
+    public static GameManager instance { get; private set; }
 
     [SerializeField] private int fps;
     public bool hideCursor = false;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
@@ -41,25 +41,22 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
         if (playerHealth.dead)
         {
             gameOverPrompt.text = "Game Over!\r\n\r\nPress 'R' to restart!";
             if (Keyboard.current.rKey.wasPressedThisFrame)
             {
-                Inventory.instance.ResetInventory();
-                Scene currentScene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(currentScene.name);
+                ResetScene();
             }
         }
+    }
 
-        if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            Inventory.instance.ResetInventory();
-            playerHealth.Initialize(health.maxHealth);
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
-        }
+    public void ResetScene()
+    {
+        Inventory.instance.ResetInventory();
+        playerHealth.Initialize(health.maxHealth);
+        Currency = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void AddCurrency(int amount)

@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     private bool waitingForNextWave;
 
     [SerializeField] private int currentWave = 1;
-    private int aliveEnemies;
+    public int aliveEnemies;
     private int finalWave;
 
     [SerializeField] private GameObject winPrompt;
@@ -62,7 +62,7 @@ public class EnemySpawner : MonoBehaviour
             if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 Time.timeScale = 1f;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                GameManager.instance.ResetScene();
             }
             return;
         }

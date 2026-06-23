@@ -34,7 +34,6 @@ public class Health : MonoBehaviour
 
     EnemySpawner spawner;
 
-    [SerializeField] private int MultiplyMinCount = 0, MultiplyMaxCount = 3;
     [SerializeField] private GameObject MultiplyEnemies;
     //[SerializeField] private int enemyIDMultiply;
     [SerializeField] private bool canMultiply;
@@ -189,11 +188,11 @@ public class Health : MonoBehaviour
 
         if (gameObject.CompareTag("Enemy"))
         {
-            if (canMultiply)
+            EnemyBehaviour enemy = gameObject.GetComponent<EnemyBehaviour>();
+            if (!(enemy.multiplyMinCount == 0 || enemy.multiplyMaxCount == 0))
             {
                 MultiplyEnemiesSpawn();
             }
-            EnemyBehaviour enemy = gameObject.GetComponent<EnemyBehaviour>();
             if (enemy != null)
             {
                 spawner.OnEnemyKilled(enemy.enemyID);
@@ -210,22 +209,28 @@ public class Health : MonoBehaviour
 
     private void MultiplyEnemiesSpawn()
     {
-        EnemyBehaviour enemyIDID = this.GetComponent<EnemyBehaviour>();
-        int SpawnCount = UnityEngine.Random.Range(MultiplyMinCount, MultiplyMaxCount);
+        EnemyBehaviour enemyIDID = GetComponent<EnemyBehaviour>();
+        int SpawnCount = UnityEngine.Random.Range(enemyIDID.multiplyMinCount, enemyIDID.multiplyMaxCount);
 
-        for (int a = 0; a < SpawnCount; a++)
+        if (enemyIDID != null)
         {
-            float xOffset = UnityEngine.Random.value > 0.5f ? spawnDistance : -spawnDistance;
+            for (int a = 0; a < SpawnCount; a++)
+            {
+                float xOffset = UnityEngine.Random.value > 0.5f ? spawnDistance : -spawnDistance;
 
-            Vector2 spawnPosition = new Vector2(
-                this.transform.position.x + xOffset,
-                this.transform.position.y
-            );
-            GameObject enemyObject = Instantiate(MultiplyEnemies, spawnPosition, Quaternion.identity);
-            EnemyBehaviour enemy = enemyObject.GetComponent<EnemyBehaviour>();
-            enemy.enemyID = enemyIDID.enemyID;
-            enemy.InitializeEnemy();
+                Vector2 spawnPosition = new Vector2(transform.position.x + xOffset, transform.position.y);
+                GameObject enemyObject = Instantiate(MultiplyEnemies, spawnPosition, Quaternion.identity);
+                EnemyBehaviour enemy = enemyObject.GetComponent<EnemyBehaviour>();
+                enemy.enemyID = enemyIDID.enemyID;
+                enemy.InitializeEnemy();
+
+                enemy.multiplyMinCount = 0;
+                enemy.multiplyMaxCount = 0;
+
+                enemy.contactDamage /= 2;
+
+                spawner.aliveEnemies++;
+            }
         }
-
     }
 }

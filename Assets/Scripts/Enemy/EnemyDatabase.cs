@@ -53,7 +53,11 @@ public class EnemyDatabase : MonoBehaviour
 
                 lootTableID = int.Parse(columns[10]),
                 lootDropChance = float.Parse(columns[11]),
-                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[12]}")
+
+                multiplyMinCount = int.Parse(columns[12]),
+                multiplyMaxCount = int.Parse(columns[13]),
+
+                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[14]}")
             };
 
             enemyDatabase.Add(enemy.enemyID, enemy);
