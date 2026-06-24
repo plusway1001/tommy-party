@@ -17,6 +17,7 @@ public class PlayerFire : MonoBehaviour
     private Weapon currentWeapon;
 
     [SerializeField] private int weaponID;
+    [SerializeField] private AudioClip fireSound;
 
     private void Awake()
     {
@@ -61,6 +62,8 @@ public class PlayerFire : MonoBehaviour
         }
 
         nextFireTime = Time.time + (1f / currentWeapon.fireRate);
+
+        AudioManager.Instance.PlaySFX(fireSound);
 
         GameObject bullet = Instantiate(Resources.Load<GameObject>($"Prefabs/Bullets/{currentWeapon.prefabName}"), firePoint.position, firePoint.rotation);
         Bullet bulletScript = bullet.GetComponent<Bullet>();

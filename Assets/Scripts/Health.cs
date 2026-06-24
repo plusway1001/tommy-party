@@ -39,6 +39,8 @@ public class Health : MonoBehaviour
     [SerializeField] private bool canMultiply;
     [SerializeField] private float spawnDistance = 5f;
 
+    //[SerializeField] private AudioClip hitSound;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -95,6 +97,7 @@ public class Health : MonoBehaviour
                 currentHealth -= damage;
                 currentHealth = Mathf.Max(currentHealth, 0);
                 ParticleEffectManager.Instance.PlayHitEffect(transform.position);
+                //AudioManager.Instance.PlaySFX(hitSound);
                 if (flashtype == flashtype.Color)
                 {
                     StartCoroutine(HitFlashColor());
