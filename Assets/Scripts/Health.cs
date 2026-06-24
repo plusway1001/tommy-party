@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
     [SerializeField] private GameObject MultiplyEnemies;
     //[SerializeField] private int enemyIDMultiply;
     [SerializeField] private bool canMultiply;
-    [SerializeField] private float spawnDistance = 5f;
+    [SerializeField] private float spawnMinDistance = 2f, spawnMaxDistance = 5f;
 
     //[SerializeField] private AudioClip hitSound;
 
@@ -219,6 +219,7 @@ public class Health : MonoBehaviour
         {
             for (int a = 0; a < SpawnCount; a++)
             {
+                float spawnDistance = UnityEngine.Random.Range(spawnMinDistance, spawnMaxDistance);
                 float xOffset = UnityEngine.Random.value > 0.5f ? spawnDistance : -spawnDistance;
 
                 Vector2 spawnPosition = new Vector2(transform.position.x + xOffset, transform.position.y);

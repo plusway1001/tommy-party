@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     //public PauseManager PM;
 
     public int Currency { get; private set; }
+    
 
     private void Awake()
     {
