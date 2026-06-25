@@ -6,52 +6,49 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     [Header("Audio Sources")]
-    [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource bgmSource;
 
     [Header("BGM Clips")]
-    //[SerializeField] private AudioClip mainMenuBGM;
-    //[SerializeField] private AudioClip gameplayBGM;
     [SerializeField] private AudioClip[] BGM;
 
-    [Header("Scene Name")]
-    //public const string mainMenuName = "MainMenu";
-    //public const string gameplayName = "Level 1";
+    [Header("Scene Names")]
     [SerializeField] private string[] BGMName;
 
     private void Awake()
     {
         // Singleton
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-    }
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Auto-find AudioSource if not assigned
+        if (bgmSource == null)
+        {
+            bgmSource = GetComponent<AudioSource>();
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
-
-
-    // SFX
-    public void PlaySFX(AudioClip clip)
-    {
-        sfxSource.PlayOneShot(clip);
-    }
-
 
     // BGM
     public void PlayBGM(AudioClip clip)
     {
+        if (clip == null || bgmSource == null)
+            return;
+
         if (bgmSource.clip == clip)
             return;
 
@@ -60,25 +57,16 @@ public class AudioManager : MonoBehaviour
         bgmSource.Play();
     }
 
-    // Detect scene changes
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        /*switch (scene.name)
-        {
-            case mainMenuName:
-                PlayBGM(mainMenuBGM);
-                break;
+        int count = Mathf.Min(BGMName.Length, BGM.Length);
 
-            case gameplayName:
-                PlayBGM(gameplayBGM);
-                break;
-        }*/
-
-        for(int i = 0; i < BGMName.Length; i++)
+        for (int i = 0; i < count; i++)
         {
             if (scene.name == BGMName[i])
             {
                 PlayBGM(BGM[i]);
+                break;
             }
         }
     }
