@@ -10,12 +10,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource bgmSource;
 
     [Header("BGM Clips")]
-    [SerializeField] private AudioClip mainMenuBGM;
-    [SerializeField] private AudioClip gameplayBGM;
+    //[SerializeField] private AudioClip mainMenuBGM;
+    //[SerializeField] private AudioClip gameplayBGM;
+    [SerializeField] private AudioClip[] BGM;
 
     [Header("Scene Name")]
-    public const string mainMenuName = "MainMenu";
-    public const string gameplayName = "Level 1";
+    //public const string mainMenuName = "MainMenu";
+    //public const string gameplayName = "Level 1";
+    [SerializeField] private string[] BGMName;
 
     private void Awake()
     {
@@ -58,11 +60,10 @@ public class AudioManager : MonoBehaviour
         bgmSource.Play();
     }
 
-
     // Detect scene changes
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        switch (scene.name)
+        /*switch (scene.name)
         {
             case mainMenuName:
                 PlayBGM(mainMenuBGM);
@@ -71,6 +72,14 @@ public class AudioManager : MonoBehaviour
             case gameplayName:
                 PlayBGM(gameplayBGM);
                 break;
+        }*/
+
+        for(int i = 0; i < BGMName.Length; i++)
+        {
+            if (scene.name == BGMName[i])
+            {
+                PlayBGM(BGM[i]);
+            }
         }
     }
 }

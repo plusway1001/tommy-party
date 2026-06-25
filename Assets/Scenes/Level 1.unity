@@ -1138,8 +1138,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   sfxSource: {fileID: 548523877}
   bgmSource: {fileID: 884028438}
-  mainMenuBGM: {fileID: 8300000, guid: 034b48201c411f94087f5e012bbb714a, type: 3}
-  gameplayBGM: {fileID: 8300000, guid: 89783c08ca88b2c4597e399a777c65fe, type: 3}
+  BGM:
+  - {fileID: 8300000, guid: 034b48201c411f94087f5e012bbb714a, type: 3}
+  - {fileID: 8300000, guid: 89783c08ca88b2c4597e399a777c65fe, type: 3}
+  BGMName:
+  - MainMenu
+  - Level 1
 --- !u!4 &436263488
 Transform:
   m_ObjectHideFlags: 0
