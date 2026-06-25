@@ -63,7 +63,7 @@ public class PlayerFire : MonoBehaviour
 
         nextFireTime = Time.time + (1f / currentWeapon.fireRate);
 
-        SFXmanager.Instance.PlaySFX(fireSound);
+        AudioManager.Instance.PlaySFX(fireSound);
 
         GameObject bullet = Instantiate(Resources.Load<GameObject>($"Prefabs/Bullets/{currentWeapon.prefabName}"), firePoint.position, firePoint.rotation);
         Bullet bulletScript = bullet.GetComponent<Bullet>();

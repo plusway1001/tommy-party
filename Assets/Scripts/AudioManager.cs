@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource bgmSource;
+    [SerializeField] private AudioSource sfxSource;
 
     [Header("BGM Clips")]
     [SerializeField] private AudioClip[] BGM;
@@ -55,6 +56,12 @@ public class AudioManager : MonoBehaviour
         bgmSource.Stop();
         bgmSource.clip = clip;
         bgmSource.Play();
+    }
+
+    // SFX
+    public void PlaySFX(AudioClip clip)
+    {
+        sfxSource.PlayOneShot(clip);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
