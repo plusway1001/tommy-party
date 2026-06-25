@@ -17628,6 +17628,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4406854747820302064, guid: 4c2f47ff3e9cf1741b43372f86a63330, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406854747820302064, guid: 4c2f47ff3e9cf1741b43372f86a63330, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406854747820302064, guid: 4c2f47ff3e9cf1741b43372f86a63330, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7842920610880679230, guid: 4c2f47ff3e9cf1741b43372f86a63330, type: 3}
       propertyPath: m_Name
       value: WeaponSlot

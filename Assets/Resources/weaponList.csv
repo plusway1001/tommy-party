@@ -1,3 +1,3 @@
 ﻿weaponID,weaponName,value,damage,fireRate,bullet,sprite
-0,Rifle,0,20,5,StarterBullet,RifleSprite
-1,Shotgun,100,50,2,ShotgunBullet,ShotgunSprite
+0,Rifle,0,20,5,StarterBullet,Rifle
+1,Shotgun,100,50,2,ShotgunBullet,Shotgun
