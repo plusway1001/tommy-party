@@ -38,6 +38,12 @@ public class EnemyBehaviour : MonoBehaviour
 
     private LootTable lootTable;
 
+    private Sprite[] animationFrames;
+    private float animationSpeed;
+
+    private float animationTimer;
+    private int currentFrame;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -64,6 +70,8 @@ public class EnemyBehaviour : MonoBehaviour
         {
             return;
         }
+
+        AnimateEnemy();
 
         Vector2 direction = player.position - transform.position;
         float distance = direction.magnitude;
@@ -137,7 +145,14 @@ public class EnemyBehaviour : MonoBehaviour
         multiplyMinCount = data.multiplyMinCount;
         multiplyMaxCount = data.multiplyMaxCount;
 
-        sr.sprite = data.sprite;
+        //sr.sprite = data.sprite;
+        animationFrames = data.sprites;
+        animationSpeed = data.animationSpeed;
+
+        if (animationFrames != null && animationFrames.Length > 0)
+        {
+            sr.sprite = animationFrames[0];
+        }
 
         lootTable = LootTableDatabase.Instance.GetTable(lootTableID);
     }
@@ -157,6 +172,29 @@ public class EnemyBehaviour : MonoBehaviour
         float angle = Vector2.Angle(forward, direction.normalized);
 
         return angle < 20f;
+    }
+
+    private void AnimateEnemy()
+    {
+        if (animationFrames == null)
+            return;
+
+        if (animationFrames.Length <= 1)
+            return;
+
+        animationTimer += Time.deltaTime;
+
+        if (animationTimer >= animationSpeed)
+        {
+            animationTimer = 0f;
+
+            currentFrame++;
+
+            if (currentFrame >= animationFrames.Length)
+                currentFrame = 0;
+
+            sr.sprite = animationFrames[currentFrame];
+        }
     }
 
     private void TryShoot()

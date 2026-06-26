@@ -1,3 +1,3 @@
-﻿enemyID,enemyName,baseHealth,baseSpeed,baseFireRate,turnSpeed,detectionRange,stoppingRange,contactDmg,knockbackForce,lootTableID,lootDropChance,multiplyMinCount,multiplyMaxCount,sprite
-0,enemy_shooter,50,2,1,7,10,5,10,8,1,0.7,0,0,Shooter
-1,enemy_melee,80,4,0,10,10,0.5,20,8,0,0.5,2,4,Melee
+﻿enemyID,enemyName,baseHealth,baseSpeed,baseFireRate,turnSpeed,detectionRange,stoppingRange,contactDmg,knockbackForce,lootTableID,lootDropChance,multiplyMinCount,multiplyMaxCount,sprites,animationSpeed
+0,enemy_shooter,50,2,1,7,10,5,10,8,1,0.7,0,0,ShooterTwo,0.08
+1,enemy_melee,80,4,0,10,10,0.5,20,8,0,0.5,2,4,MeleeTwo,0.12

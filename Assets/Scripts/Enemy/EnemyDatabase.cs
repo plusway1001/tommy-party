@@ -57,7 +57,9 @@ public class EnemyDatabase : MonoBehaviour
                 multiplyMinCount = int.Parse(columns[12]),
                 multiplyMaxCount = int.Parse(columns[13]),
 
-                sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[14]}")
+                //sprite = Resources.Load<Sprite>($"Sprites/Enemies/{columns[14]}")
+                sprites = Resources.LoadAll<Sprite>($"Sprites/Enemies/{columns[14]}"),
+                animationSpeed = float.Parse(columns[15])
             };
 
             enemyDatabase.Add(enemy.enemyID, enemy);

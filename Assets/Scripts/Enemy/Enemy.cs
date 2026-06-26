@@ -22,5 +22,7 @@ public class EnemyData
     public int multiplyMinCount;
     public int multiplyMaxCount;
 
-    public Sprite sprite;
+    //public Sprite sprite;
+    public Sprite[] sprites;
+    public float animationSpeed = 0.1f; // seconds per frame
 }
