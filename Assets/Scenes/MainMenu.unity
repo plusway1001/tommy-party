@@ -1732,6 +1732,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360c795f7f5e45459e9ba4177fc21a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  movementSpeed: 0
+  acceleration: 0
+  initialPos: {x: 0, y: 0, z: 0}
 --- !u!61 &847561270
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1912,7 +1915,7 @@ MonoBehaviour:
   bgmSource: {fileID: 86765816}
   sfxSource: {fileID: 840510544}
   BGM:
-  - {fileID: 8300000, guid: 1eb941cdebe984442b36859c624eb609, type: 3}
+  - {fileID: 8300000, guid: 4f0ade60b928c104c8d2d3895c1d8674, type: 3}
   - {fileID: 8300000, guid: c9539dd3f7998034b8b7f8bf27ef556f, type: 3}
   BGMName:
   - MainMenu

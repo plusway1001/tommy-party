@@ -215,6 +215,8 @@ MonoBehaviour:
   canMultiply: 0
   spawnMinDistance: 0.25
   spawnMaxDistance: 0.35
+  PlayerhurtSound: {fileID: 8300000, guid: 6671ef8bc2fe20443957c361893e203d, type: 3}
+  EnemyhurtSound: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
 --- !u!114 &5134219983939511648
 MonoBehaviour:
   m_ObjectHideFlags: 0

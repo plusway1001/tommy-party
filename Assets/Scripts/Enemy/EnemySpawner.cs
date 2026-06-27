@@ -28,6 +28,8 @@ public class EnemySpawner : MonoBehaviour
     private List<ActiveSpawnGroup> activeGroups = new();
     private bool waveStarted = false;
 
+    [SerializeField] private AudioClip[] EnemySpawnSound;
+
     private class ActiveSpawnGroup
     {
         public WaveSpawnData data;
@@ -121,6 +123,8 @@ public class EnemySpawner : MonoBehaviour
         EnemyBehaviour enemy = enemyObject.GetComponent<EnemyBehaviour>();
         enemy.enemyID = enemyID;
         enemy.InitializeEnemy();
+
+        AudioManager.Instance.PlaySFX(EnemySpawnSound[Random.Range(0, EnemySpawnSound.Length)]);
 
         aliveEnemies++;
         aliveByType.TryAdd(enemyID, 0);

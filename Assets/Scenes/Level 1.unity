@@ -157,6 +157,11 @@ MonoBehaviour:
   aliveEnemies: 0
   winPrompt: {fileID: 349920158}
   winPromptText: {fileID: 349920160}
+  EnemySpawnSound:
+  - {fileID: 8300000, guid: 9d0c6e36626d6fe4c94ebc15d2bcc53d, type: 3}
+  - {fileID: 8300000, guid: da5c21f7d225ece4cbff22bc1862af94, type: 3}
+  - {fileID: 8300000, guid: 940c2622249909242a01e7fc72877988, type: 3}
+  - {fileID: 8300000, guid: 5b113b56ff6a64c43a42e1add898a438, type: 3}
 --- !u!4 &1780181
 Transform:
   m_ObjectHideFlags: 0
@@ -2417,6 +2422,8 @@ MonoBehaviour:
   canMultiply: 0
   spawnMinDistance: 2
   spawnMaxDistance: 5
+  PlayerhurtSound: {fileID: 0}
+  EnemyhurtSound: {fileID: 0}
 --- !u!50 &721087801
 Rigidbody2D:
   serializedVersion: 5
@@ -7338,6 +7345,8 @@ MonoBehaviour:
   canMultiply: 0
   spawnMinDistance: 2
   spawnMaxDistance: 5
+  PlayerhurtSound: {fileID: 8300000, guid: 6671ef8bc2fe20443957c361893e203d, type: 3}
+  EnemyhurtSound: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
 --- !u!114 &1074493494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10768,6 +10777,8 @@ MonoBehaviour:
   canMultiply: 0
   spawnMinDistance: 2
   spawnMaxDistance: 5
+  PlayerhurtSound: {fileID: 0}
+  EnemyhurtSound: {fileID: 0}
 --- !u!50 &1805238546
 Rigidbody2D:
   serializedVersion: 5
