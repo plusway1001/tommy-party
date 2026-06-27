@@ -27,6 +27,10 @@ public class TutorialManager : MonoBehaviour
 
             }
         }
+        else
+        {
+            Tutorialpanel.blocksRaycasts = false; // When game replays, disable raycast block
+        }
     }
     public void closetutorial()
     {

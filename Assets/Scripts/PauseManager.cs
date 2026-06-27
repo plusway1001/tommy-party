@@ -21,17 +21,20 @@ public class PauseManager : MonoBehaviour
             isPaused = !isPaused;
         }
 
-        if (!isPaused)
+        if (TutorialManager.hasShownTutorial)
         {
-            Time.timeScale = 1f;
-            pausepanel.alpha = 0f;
-            pausepanel.interactable = false;
-        }
-        else
-        {
-            Time.timeScale = 0f;
-            pausepanel.alpha = 1f;
-            pausepanel.interactable = true;
+            if (!isPaused)
+            {
+                Time.timeScale = 1f;
+                pausepanel.alpha = 0f;
+                pausepanel.interactable = false;
+            }
+            else
+            {
+                Time.timeScale = 0f;
+                pausepanel.alpha = 1f;
+                pausepanel.interactable = true;
+            }
         }
     }
 
