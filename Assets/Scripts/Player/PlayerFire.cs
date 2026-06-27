@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -33,9 +34,15 @@ public class PlayerFire : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+        {
+            return;
+        }
+
         if (Mouse.current.leftButton.isPressed)
         {
             Fire();
+            Debug.Log("player is firing");
         }
 
         if (Keyboard.current.qKey.wasPressedThisFrame)
@@ -63,7 +70,14 @@ public class PlayerFire : MonoBehaviour
 
         nextFireTime = Time.time + (1f / currentWeapon.fireRate);
 
-        AudioManager.Instance.PlaySFX(fireSound);
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(fireSound);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
 
         GameObject bullet = Instantiate(Resources.Load<GameObject>($"Prefabs/Bullets/{currentWeapon.prefabName}"), firePoint.position, firePoint.rotation);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
