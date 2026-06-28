@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
 
     private TextMeshProUGUI gameOverPrompt;
 
-    //public PauseManager PM;
-
     public int Currency { get; private set; }
     
 
@@ -90,6 +88,5 @@ public class GameManager : MonoBehaviour
         {
             gameOverPrompt = GameObject.Find("GameOverPrompt").GetComponent<TextMeshProUGUI>();
         }
-        //PM.pausepanel = GameObject.Find("Pause Overlay").GetComponent<CanvasGroup>();
     }
 }

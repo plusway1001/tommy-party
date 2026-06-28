@@ -145,7 +145,6 @@ public class EnemyBehaviour : MonoBehaviour
         multiplyMinCount = data.multiplyMinCount;
         multiplyMaxCount = data.multiplyMaxCount;
 
-        //sr.sprite = data.sprite;
         animationFrames = data.sprites;
         animationSpeed = data.animationSpeed;
 

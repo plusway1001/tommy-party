@@ -4,15 +4,14 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     // Load selected scene
-    public void LoadScene(string sceneName)
+    public void LoadScene(int sceneID)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneID);
     }
 
     // Quit game
     public void QuitGame()
     {
-        Debug.Log("Game Quit");
 
         Application.Quit();
     }

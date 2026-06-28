@@ -35,7 +35,6 @@ public class Health : MonoBehaviour
     EnemySpawner spawner;
 
     [SerializeField] private GameObject MultiplyEnemies;
-    //[SerializeField] private int enemyIDMultiply;
     [SerializeField] private bool canMultiply;
     [SerializeField] private float spawnMinDistance = 2f, spawnMaxDistance = 5f;
 
@@ -88,7 +87,6 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        // Flash effect
         CameraShake.Instance.Shake(0.1f, 0.05f);
         if (gameObject.CompareTag("Player"))
         {
@@ -119,7 +117,6 @@ public class Health : MonoBehaviour
 
             ParticleEffectManager.Instance.PlayHitEffect(transform.position);
             AudioManager.Instance.PlaySFX(EnemyhurtSound);
-            //StartCoroutine(HitFlashColor());
             if (flashtype == flashtype.Color)
             {
                 StartCoroutine(HitFlashColor());

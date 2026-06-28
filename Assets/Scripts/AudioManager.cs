@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] BGM;
 
     [Header("Scene Names")]
-    [SerializeField] private string[] BGMName;
+    [SerializeField] private int[] BGMName;
 
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class AudioManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            if (scene.name == BGMName[i])
+            if (scene.buildIndex == BGMName[i])
             {
                 PlayBGM(BGM[i]);
                 break;

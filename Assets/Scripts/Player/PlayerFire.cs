@@ -42,7 +42,6 @@ public class PlayerFire : MonoBehaviour
         if (Mouse.current.leftButton.isPressed)
         {
             Fire();
-            Debug.Log("player is firing");
         }
 
         if (Keyboard.current.qKey.wasPressedThisFrame)
