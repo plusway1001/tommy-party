@@ -16,6 +16,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (!hasShownTutorial)
         {
+            AudioManager.Instance.PlayAmbienceSFX(false);
             UnityEngine.SceneManagement.Scene targetScene = SceneManager.GetSceneByBuildIndex(1);
             if (targetScene.isLoaded)
             {
@@ -29,6 +30,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             Tutorialpanel.blocksRaycasts = false;
+            AudioManager.Instance.PlayAmbienceSFX(true);
         }
     }
     public void closetutorial()
@@ -39,5 +41,6 @@ public class TutorialManager : MonoBehaviour
         Tutorialpanel.blocksRaycasts = false;
         Tutorialpanel.gameObject.SetActive(false);
         hasShownTutorial = true;
+        AudioManager.Instance.PlayAmbienceSFX(true);
     }
 }

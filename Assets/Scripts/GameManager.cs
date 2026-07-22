@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
     public void ResetScene()
     {
         status = false;
+        
         Inventory.instance.ResetInventory();
         playerHealth.Initialize(health.maxHealth);
         Currency = 0;

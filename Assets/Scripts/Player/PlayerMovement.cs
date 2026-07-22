@@ -14,8 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector3 initialPos;
 
-    [SerializeField] private AudioSource movementAudioSource;
-    [SerializeField] private AudioClip movementClip;
+    private bool wasMoving;
 
     private void Awake()
     {
@@ -45,22 +44,17 @@ public class PlayerMovement : MonoBehaviour
     {
         bool isMoving = movementInput.sqrMagnitude > 0.01f;
 
-        if (isMoving)
+        if (isMoving && !wasMoving)
         {
-            if (!movementAudioSource.isPlaying)
-            {
-                movementAudioSource.clip = movementClip;
-                movementAudioSource.loop = true;
-                movementAudioSource.Play();
-            }
+            AudioManager.Instance.PlayMovementSFX(true);
         }
-        else
+
+        if (!isMoving && wasMoving)
         {
-            if (movementAudioSource.isPlaying)
-            {
-                movementAudioSource.Stop();
-            }
+            AudioManager.Instance.PlayMovementSFX(false);
         }
+
+        wasMoving = isMoving;
     }
 
     public void Knockback(Transform enemy, float force)

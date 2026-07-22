@@ -7202,8 +7202,7 @@ MonoBehaviour:
   movementSpeed: 10
   acceleration: 5
   initialPos: {x: 0, y: 0, z: 0}
-  movementAudioSource: {fileID: 535088961}
-  movementClip: {fileID: 8300000, guid: 7d6b05785ffb1ed4bad3ae7ea7796bc3, type: 3}
+  movementClip: {fileID: 8300000, guid: bcaf6df52b0571445a5bcab5b11642c7, type: 3}
 --- !u!114 &1074493492
 MonoBehaviour:
   m_ObjectHideFlags: 0
