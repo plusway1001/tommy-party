@@ -16,6 +16,9 @@ public class PlayerAbilities : MonoBehaviour
 
     public bool inSellZone = false;
 
+    public AudioClip UseItemSound1, UseItemSound2;
+    public AudioClip SellItemSound;
+
     private void Awake()
     {
         inventoryUI = FindFirstObjectByType<InventoryUI>();
@@ -49,6 +52,7 @@ public class PlayerAbilities : MonoBehaviour
 
         if (inSellZone)
         {
+            TriggerSFX.PlayAudioSFX(SellItemSound);
             SellItem(lootID);
         }
         else
@@ -64,9 +68,11 @@ public class PlayerAbilities : MonoBehaviour
         switch (loot.lootName)
         {
             case "Bomb":
+                TriggerSFX.PlayAudioSFX(UseItemSound2);
                 UseBomb(lootID);
                 break;
             case "Potion":
+                TriggerSFX.PlayAudioSFX(UseItemSound1);
                 UsePotion(lootID); 
                 break;
         }

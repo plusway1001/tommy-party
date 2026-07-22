@@ -145,3 +145,4 @@ MonoBehaviour:
   explosionRadius: 3
   damage: 100
   explosionPrefab: {fileID: 1704566801543076395, guid: b3eeb4d68e959e54384b186d5d0dabd7, type: 3}
+  explosionsound: {fileID: 8300000, guid: 377d01f5a0b55744ca3f5eda6c92fb6e, type: 3}

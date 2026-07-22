@@ -18,7 +18,7 @@ public class PlayerFire : MonoBehaviour
     private Weapon currentWeapon;
 
     [SerializeField] private int weaponID;
-    [SerializeField] private AudioClip fireSound;
+    [SerializeField] private AudioClip fireSound1, fireSound2, switchWeaponSound;
 
     private void Awake()
     {
@@ -46,7 +46,9 @@ public class PlayerFire : MonoBehaviour
 
         if (Keyboard.current.qKey.wasPressedThisFrame)
         {
-            if(weaponID == weaponList.weapons.Count - 1)
+            TriggerSFX.PlayAudioSFX(switchWeaponSound);
+
+            if (weaponID == weaponList.weapons.Count - 1)
             {
                 weaponID = 0;
             }
@@ -69,13 +71,13 @@ public class PlayerFire : MonoBehaviour
 
         nextFireTime = Time.time + (1f / currentWeapon.fireRate);
 
-        if (AudioManager.Instance != null)
+        if (weaponID == 0)
         {
-            AudioManager.Instance.PlaySFX(fireSound);
+            TriggerSFX.PlayAudioSFX(fireSound1);
         }
         else
         {
-            Debug.LogWarning("AudioManager instance is missing from the scene!");
+            TriggerSFX.PlayAudioSFX(fireSound2);
         }
 
         GameObject bullet = Instantiate(Resources.Load<GameObject>($"Prefabs/Bullets/{currentWeapon.prefabName}"), firePoint.position, firePoint.rotation);

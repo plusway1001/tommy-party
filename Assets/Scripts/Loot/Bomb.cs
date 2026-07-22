@@ -7,6 +7,8 @@ public class Bomb : MonoBehaviour
     [SerializeField] private int damage = 100;
 
     [SerializeField] private GameObject explosionPrefab;
+
+    public AudioClip explosionsound;
     private void Start()
     {
         Invoke("Explode", fuseTime);
@@ -25,6 +27,8 @@ public class Bomb : MonoBehaviour
                 enemy.GetComponent<Health>().TakeDamage(damage);
             }
         }
+
+        TriggerSFX.PlayAudioSFX(explosionsound);
 
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);

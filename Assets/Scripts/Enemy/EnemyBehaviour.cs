@@ -44,6 +44,8 @@ public class EnemyBehaviour : MonoBehaviour
     private float animationTimer;
     private int currentFrame;
 
+    public AudioClip enemyshootingSound, droplootSound;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -207,6 +209,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (firePoint != null)
         {
+            TriggerSFX.PlayAudioSFX(enemyshootingSound);
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bulletPrefab.GetComponent<Bullet>().originTag = gameObject.tag;
         }
@@ -243,6 +246,8 @@ public class EnemyBehaviour : MonoBehaviour
             }
 
             LootData loot = LootDatabase.Instance.lootDatabase[entry.lootID];
+
+            TriggerSFX.PlayAudioSFX(droplootSound);
 
             GameObject prefab = Resources.Load<GameObject>($"Prefabs/Loot/{loot.prefab}");
             GameObject drop = Instantiate(prefab, transform.position, Quaternion.identity);

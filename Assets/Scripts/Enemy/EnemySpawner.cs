@@ -30,6 +30,8 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private AudioClip[] EnemySpawnSound;
 
+    [SerializeField] private AudioClip WinGameSound, FinalWinGameSound, ClickSound;
+
     private class ActiveSpawnGroup
     {
         public WaveSpawnData data;
@@ -51,6 +53,7 @@ public class EnemySpawner : MonoBehaviour
         {
             if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
+                TriggerSFX.PlayAudioSFX(ClickSound);
                 waitingForNextWave = false;
                 if (nextWavePrompt != null) nextWavePrompt.SetActive(false);
                 currentWave++;
@@ -64,6 +67,7 @@ public class EnemySpawner : MonoBehaviour
             if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 Time.timeScale = 1f;
+                TriggerSFX.PlayAudioSFX(ClickSound);
                 GameManager.instance.ResetScene();
             }
             return;
@@ -178,6 +182,7 @@ public class EnemySpawner : MonoBehaviour
         if (nextWavePrompt != null) nextWavePrompt.SetActive(true);
         if (nextWavePromptText != null)
         {
+            TriggerSFX.PlayAudioSFX(WinGameSound);
             nextWavePromptText.text = $"Wave {currentWave} Complete\n\nPress SPACE to start Wave {currentWave + 1}";
         }
     }
@@ -188,6 +193,7 @@ public class EnemySpawner : MonoBehaviour
         if (winPrompt != null) winPrompt.SetActive(true);
         if (winPromptText != null)
         {
+            TriggerSFX.PlayAudioSFX(FinalWinGameSound);
             winPromptText.text = $"You survived all {finalWave} waves!\n\nPress SPACE to Restart";
         }
         Time.timeScale = 0f;

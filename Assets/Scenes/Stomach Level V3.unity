@@ -1983,7 +1983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &535088961
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7248,7 +7248,7 @@ MonoBehaviour:
   canMultiply: 0
   spawnMinDistance: 2
   spawnMaxDistance: 5
-  PlayerhurtSound: {fileID: 8300000, guid: b2f42f7b079fb3d4292aba73d2f93ca4, type: 3}
+  PlayerhurtSound: {fileID: 8300000, guid: 6671ef8bc2fe20443957c361893e203d, type: 3}
   EnemyhurtSound: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
 --- !u!114 &1074493494
 MonoBehaviour:
@@ -9254,7 +9254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1644214893
 AudioSource:
   m_ObjectHideFlags: 0

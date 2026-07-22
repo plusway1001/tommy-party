@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private TextMeshProUGUI gameOverPrompt;
 
-    [SerializeField] private AudioClip gameoverSound;
+    [SerializeField] private AudioClip gameoverSound, clicksound;
 
     public int Currency { get; private set; }
 
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
     public void ResetScene()
     {
         status = false;
-        
+        TriggerSFX.PlayAudioSFX(clicksound);
         Inventory.instance.ResetInventory();
         playerHealth.Initialize(health.maxHealth);
         Currency = 0;
