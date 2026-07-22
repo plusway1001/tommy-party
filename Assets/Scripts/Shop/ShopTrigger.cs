@@ -11,6 +11,10 @@ public class ShopTrigger : MonoBehaviour
 
     private bool playerInRange;
 
+    [SerializeField] private AudioClip NoMoney, BuyingItem, AlertEnter;
+
+    private bool EnterShop = false;
+
     private void Start()
     {
         promptUI.SetActive(false);
@@ -19,6 +23,8 @@ public class ShopTrigger : MonoBehaviour
         {
             shopItem = GetComponent<ShopItem>();
         }
+
+        //EnterShop = false;
     }
 
     private void Update()
@@ -36,9 +42,12 @@ public class ShopTrigger : MonoBehaviour
     {
         if (GameManager.instance.Currency < shopItem.price)
         {
+            TriggerSFX.PlayAudioSFX(NoMoney);
             promptText.text = "Not enough coins!";
             return;
         }
+
+        TriggerSFX.PlayAudioSFX(BuyingItem);
 
         GameManager.instance.AddCurrency(-shopItem.price);
 
@@ -51,6 +60,8 @@ public class ShopTrigger : MonoBehaviour
             return;
 
         playerInRange = true;
+
+        TriggerSFX.PlayAudioSFX(AlertEnter);
 
         promptUI.SetActive(true);
 

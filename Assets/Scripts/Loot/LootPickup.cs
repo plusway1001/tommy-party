@@ -4,6 +4,7 @@ public class LootPickup : MonoBehaviour
 {
     public int lootID;
     public int amount = 1;
+    [SerializeField] private AudioClip lootSound;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,6 +14,8 @@ public class LootPickup : MonoBehaviour
         {
             return;
         }
+
+        TriggerSFX.PlayAudioSFX(lootSound);
 
         inventory.AddItem(lootID, amount);
 

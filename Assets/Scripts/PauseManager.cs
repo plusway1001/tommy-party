@@ -7,6 +7,8 @@ public class PauseManager : MonoBehaviour
 
     public CanvasGroup pausepanel;
 
+    public AudioClip openPauseSound, closePauseSound;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +21,15 @@ public class PauseManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             isPaused = !isPaused;
+
+            if (isPaused)
+            {
+                TriggerSFX.PlayAudioSFX(openPauseSound);
+            }
+            else
+            {
+                TriggerSFX.PlayAudioSFX(closePauseSound);
+            }
         }
 
         if (TutorialManager.hasShownTutorial)

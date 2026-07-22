@@ -143,3 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LootPickup
   lootID: 2
   amount: 1
+  lootSound: {fileID: 8300000, guid: 351f5133977d3e540a96e32c4f439ca2, type: 3}

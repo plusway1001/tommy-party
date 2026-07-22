@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector3 initialPos;
 
+    [SerializeField] private AudioSource movementAudioSource;
+    [SerializeField] private AudioClip movementClip;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -34,6 +37,30 @@ public class PlayerMovement : MonoBehaviour
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+        HandleMovementSound();
+    }
+
+    private void HandleMovementSound()
+    {
+        bool isMoving = movementInput.sqrMagnitude > 0.01f;
+
+        if (isMoving)
+        {
+            if (!movementAudioSource.isPlaying)
+            {
+                movementAudioSource.clip = movementClip;
+                movementAudioSource.loop = true;
+                movementAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (movementAudioSource.isPlaying)
+            {
+                movementAudioSource.Stop();
+            }
+        }
     }
 
     public void Knockback(Transform enemy, float force)

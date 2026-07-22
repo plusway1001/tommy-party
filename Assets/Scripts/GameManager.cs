@@ -16,7 +16,11 @@ public class GameManager : MonoBehaviour
 
     private TextMeshProUGUI gameOverPrompt;
 
+    [SerializeField] private AudioClip gameoverSound;
+
     public int Currency { get; private set; }
+
+    private bool status = false;
     
 
     private void Awake()
@@ -36,6 +40,8 @@ public class GameManager : MonoBehaviour
         {
             Cursor.visible = false;
         }
+
+        status = false;
     }
 
     private void Update()
@@ -43,6 +49,9 @@ public class GameManager : MonoBehaviour
         if (playerHealth.dead)
         {
             gameOverPrompt.text = "Game Over!\r\n\r\nPress 'R' to restart!";
+
+            PlayGameOverSound();
+
             if (Keyboard.current.rKey.wasPressedThisFrame)
             {
                 ResetScene();
@@ -50,8 +59,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PlayGameOverSound()
+    {
+        if (status) return;
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(gameoverSound);
+            status = true;
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
+    }
+
     public void ResetScene()
     {
+        status = false;
         Inventory.instance.ResetInventory();
         playerHealth.Initialize(health.maxHealth);
         Currency = 0;

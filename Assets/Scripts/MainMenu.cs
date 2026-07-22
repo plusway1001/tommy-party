@@ -15,4 +15,16 @@ public class MainMenu : MonoBehaviour
 
         Application.Quit();
     }
+
+    public void PlaySound(AudioClip clip)
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance is missing from the scene!");
+        }
+    }
 }

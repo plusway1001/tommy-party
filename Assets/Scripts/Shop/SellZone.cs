@@ -4,6 +4,8 @@ using UnityEngine;
 public class SellZone : MonoBehaviour
 {
     [SerializeField] private GameObject prompt;
+    [SerializeField]
+    private AudioClip SellItem;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -14,6 +16,7 @@ public class SellZone : MonoBehaviour
             {
                 player.inSellZone = true;
                 prompt.SetActive(true);
+                TriggerSFX.PlayAudioSFX(SellItem);
             }
         }
     }
