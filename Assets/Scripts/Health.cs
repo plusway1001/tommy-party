@@ -38,7 +38,9 @@ public class Health : MonoBehaviour
     [SerializeField] private bool canMultiply;
     [SerializeField] private float spawnMinDistance = 2f, spawnMaxDistance = 5f;
 
-    [SerializeField] private AudioClip PlayerhurtSound, EnemyhurtSound;
+    [SerializeField] private AudioClip PlayerhurtSound, EnemyhurtSound1,
+        EnemyhurtSound2, SpawnMultiplySound, 
+        EnemyDieSound1, EnemyDieSound2, PlayerDieSound;
 
     private void Awake()
     {
@@ -116,7 +118,16 @@ public class Health : MonoBehaviour
             currentHealth = Mathf.Max(currentHealth, 0);
 
             ParticleEffectManager.Instance.PlayHitEffect(transform.position);
-            AudioManager.Instance.PlaySFX(EnemyhurtSound);
+
+            EnemyBehaviour enemy = gameObject.GetComponent<EnemyBehaviour>();
+            if (enemy.enemyID == 1)
+            {
+                AudioManager.Instance.PlaySFX(EnemyhurtSound1);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySFX(EnemyhurtSound2);
+            }
             if (flashtype == flashtype.Color)
             {
                 StartCoroutine(HitFlashColor());
@@ -196,6 +207,17 @@ public class Health : MonoBehaviour
             {
                 MultiplyEnemiesSpawn();
             }
+            else
+            {
+                if (enemy.enemyID == 1)
+                {
+                    AudioManager.Instance.PlaySFX(EnemyDieSound1);
+                }
+                else
+                {
+                    AudioManager.Instance.PlaySFX(EnemyDieSound2);
+                }
+            }
             if (enemy != null)
             {
                 spawner.OnEnemyKilled(enemy.enemyID);
@@ -204,6 +226,7 @@ public class Health : MonoBehaviour
         
         else if (gameObject.CompareTag("Player"))
         {
+            AudioManager.Instance.PlaySFX(PlayerDieSound);
             dead = true;
         }
 
@@ -214,6 +237,8 @@ public class Health : MonoBehaviour
     {
         EnemyBehaviour enemyIDID = GetComponent<EnemyBehaviour>();
         int SpawnCount = UnityEngine.Random.Range(enemyIDID.multiplyMinCount, enemyIDID.multiplyMaxCount);
+
+        AudioManager.Instance.PlaySFX(SpawnMultiplySound);
 
         if (enemyIDID != null)
         {

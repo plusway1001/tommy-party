@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private AudioClip[] EnemySpawnSound;
 
-    [SerializeField] private AudioClip WinGameSound, FinalWinGameSound, ClickSound;
+    [SerializeField] private AudioClip WinGameSound, FinalWinGameSound, ClickSound, NextWaveVO, WinVO;
 
     private class ActiveSpawnGroup
     {
@@ -183,6 +183,7 @@ public class EnemySpawner : MonoBehaviour
         if (nextWavePromptText != null)
         {
             TriggerSFX.PlayAudioSFX(WinGameSound);
+            TriggerSFX.PlayAudioSFX(NextWaveVO);
             nextWavePromptText.text = $"Wave {currentWave} Complete\n\nPress SPACE to start Wave {currentWave + 1}";
         }
     }
@@ -194,6 +195,7 @@ public class EnemySpawner : MonoBehaviour
         if (winPromptText != null)
         {
             TriggerSFX.PlayAudioSFX(FinalWinGameSound);
+            TriggerSFX.PlayAudioSFX(WinVO);
             winPromptText.text = $"You survived all {finalWave} waves!\n\nPress SPACE to Restart";
         }
         Time.timeScale = 0f;

@@ -185,7 +185,12 @@ MonoBehaviour:
   spawnMinDistance: 0.25
   spawnMaxDistance: 0.35
   PlayerhurtSound: {fileID: 8300000, guid: 460d4faecaf366a44983da3af7cd3f72, type: 3}
-  EnemyhurtSound: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
+  EnemyhurtSound1: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
+  EnemyhurtSound2: {fileID: 8300000, guid: 940c2622249909242a01e7fc72877988, type: 3}
+  SpawnMultiplySound: {fileID: 8300000, guid: 11fa75a51418b844d981d502c79b414d, type: 3}
+  EnemyDieSound1: {fileID: 8300000, guid: 28ac623f50afc974684ef2f16c494875, type: 3}
+  EnemyDieSound2: {fileID: 8300000, guid: e30cac31b55db9a4eb010ffc075a3542, type: 3}
+  PlayerDieSound: {fileID: 0}
 --- !u!114 &4569094585183598472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +210,7 @@ MonoBehaviour:
   firePoint: {fileID: 7223609573231356570}
   bulletPrefab: {fileID: 4260920406473507209, guid: f986a718ad7dce74ca3a11d181dbf47a, type: 3}
   enemyshootingSound: {fileID: 8300000, guid: 31926927612bd874ba7bceffce54b293, type: 3}
-  droplootSound: {fileID: 8300000, guid: 5fc7e863f75d3b34a90be4a201b63a1b, type: 3}
+  droplootSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
 --- !u!1 &9106752196985703438
 GameObject:
   m_ObjectHideFlags: 0

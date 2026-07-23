@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private TextMeshProUGUI gameOverPrompt;
 
-    [SerializeField] private AudioClip gameoverSound, clicksound;
+    [SerializeField] private AudioClip gameoverSound, clicksound, loseVOsound;
 
     public int Currency { get; private set; }
 
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(gameoverSound);
+            AudioManager.Instance.PlaySFX(loseVOsound);
             status = true;
         }
         else

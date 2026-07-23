@@ -216,7 +216,12 @@ MonoBehaviour:
   spawnMinDistance: 0.25
   spawnMaxDistance: 0.35
   PlayerhurtSound: {fileID: 8300000, guid: a6c9f1d19f5e15d4b8593bae2fc6bcb1, type: 3}
-  EnemyhurtSound: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
+  EnemyhurtSound1: {fileID: 8300000, guid: 9afabb12a4ba9e44597f5600e7aa8de6, type: 3}
+  EnemyhurtSound2: {fileID: 8300000, guid: 940c2622249909242a01e7fc72877988, type: 3}
+  SpawnMultiplySound: {fileID: 8300000, guid: 11fa75a51418b844d981d502c79b414d, type: 3}
+  EnemyDieSound1: {fileID: 8300000, guid: 28ac623f50afc974684ef2f16c494875, type: 3}
+  EnemyDieSound2: {fileID: 8300000, guid: e30cac31b55db9a4eb010ffc075a3542, type: 3}
+  PlayerDieSound: {fileID: 0}
 --- !u!114 &5134219983939511648
 MonoBehaviour:
   m_ObjectHideFlags: 0
