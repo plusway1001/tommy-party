@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     public int Currency { get; private set; }
 
     private bool status = false;
-    
+
+    public static bool isgameover = false;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
         }
 
         status = false;
+        isgameover = false;
     }
 
     private void Update()
@@ -51,6 +53,8 @@ public class GameManager : MonoBehaviour
             gameOverPrompt.text = "Game Over!\r\n\r\nPress 'R' to restart!";
 
             PlayGameOverSound();
+
+            isgameover = true;
 
             if (Keyboard.current.rKey.wasPressedThisFrame)
             {

@@ -982,6 +982,7 @@ GameObject:
   - component: {fileID: 693932642}
   - component: {fileID: 693932641}
   - component: {fileID: 693932640}
+  - component: {fileID: 693932643}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -1115,6 +1116,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693932638}
   m_CullTransparentMesh: 1
+--- !u!114 &693932643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693932638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
+  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
 --- !u!1 &696719500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,6 +1377,7 @@ GameObject:
   - component: {fileID: 775465354}
   - component: {fileID: 775465353}
   - component: {fileID: 775465352}
+  - component: {fileID: 775465355}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -1496,6 +1511,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775465350}
   m_CullTransparentMesh: 1
+--- !u!114 &775465355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775465350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
+  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
 --- !u!1 &787389241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1885,6 +1913,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360c795f7f5e45459e9ba4177fc21a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  movementSpeed: 0
+  acceleration: 0
+  initialPos: {x: 0, y: 0, z: 0}
 --- !u!61 &847561270
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2067,8 +2098,8 @@ MonoBehaviour:
   movementSource: {fileID: 696719501}
   ambienceSource: {fileID: 1412500139}
   BGM:
-  - {fileID: 8300000, guid: e5ba59a0a068bea41bdaefff03a04dbf, type: 3}
-  - {fileID: 8300000, guid: f71309937a939da4e95c1b20f6e28a12, type: 3}
+  - {fileID: 8300000, guid: 7f1c7e26b3e01fa43a9061b4a177f901, type: 3}
+  - {fileID: 8300000, guid: ac7240130a6058744888df288edbcd9b, type: 3}
   BGMName: 0000000001000000
 --- !u!4 &965589246
 Transform:

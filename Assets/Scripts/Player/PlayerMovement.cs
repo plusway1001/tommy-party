@@ -16,10 +16,13 @@ public class PlayerMovement : MonoBehaviour
 
     private bool wasMoving;
 
+    public static bool StopMovementSound = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+        StopMovementSound = false;
     }
 
     private void Start()
@@ -42,6 +45,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovementSound()
     {
+        if (StopMovementSound)
+        {
+            AudioManager.Instance.PlayMovementSFX(false);
+            return;
+        }
+
         bool isMoving = movementInput.sqrMagnitude > 0.01f;
 
         if (isMoving && !wasMoving)

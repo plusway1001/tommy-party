@@ -44,8 +44,17 @@ public class PauseManager : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 pausepanel.alpha = 1f;
-                pausepanel.interactable = true;
+                pausepanel.interactable = true; 
             }
+        }
+
+        if(isPaused || GameManager.isgameover)
+        {
+            PlayerMovement.StopMovementSound = true;
+        }
+        else
+        {
+            PlayerMovement.StopMovementSound = false;
         }
     }
 

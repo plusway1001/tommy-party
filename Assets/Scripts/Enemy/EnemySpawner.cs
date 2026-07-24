@@ -32,6 +32,8 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private AudioClip WinGameSound, FinalWinGameSound, ClickSound, NextWaveVO, WinVO;
 
+    //public static bool isWin = false;
+
     private class ActiveSpawnGroup
     {
         public WaveSpawnData data;
@@ -41,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        //isWin = false;
         player = GameObject.FindWithTag("Player").transform;
 
         finalWave = WaveDatabase.Instance.GetFinalWave();
