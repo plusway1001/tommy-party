@@ -228,7 +228,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.554
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1128,7 +1128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
-  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
+  hoverSound: {fileID: 8300000, guid: fff1c17bc9556f24a9dad4542c0280ad, type: 3}
 --- !u!1 &696719500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
-  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
+  hoverSound: {fileID: 8300000, guid: fff1c17bc9556f24a9dad4542c0280ad, type: 3}
 --- !u!1 &787389241
 GameObject:
   m_ObjectHideFlags: 0

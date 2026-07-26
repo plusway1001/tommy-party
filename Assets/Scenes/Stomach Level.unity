@@ -1997,7 +1997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
-  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
+  hoverSound: {fileID: 8300000, guid: fff1c17bc9556f24a9dad4542c0280ad, type: 3}
 --- !u!114 &531843114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2010,7 +2010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
-  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
+  hoverSound: {fileID: 8300000, guid: fff1c17bc9556f24a9dad4542c0280ad, type: 3}
 --- !u!1 &535088960
 GameObject:
   m_ObjectHideFlags: 0
@@ -11790,7 +11790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d25a2f65dccb2429ab74872f61ea09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHoverSound
-  hoverSound: {fileID: 8300000, guid: ad4feced4a9257d40b1dc51e5d71cc8d, type: 3}
+  hoverSound: {fileID: 8300000, guid: fff1c17bc9556f24a9dad4542c0280ad, type: 3}
 --- !u!1 &7473137559161954873
 GameObject:
   m_ObjectHideFlags: 0
